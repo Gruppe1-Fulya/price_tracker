@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
+
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="price_tracker.Controller">
+  <ImageView fx:id="registerLogo" fitWidth="200.0" fitHeight="250.0" />
+  <TextField fx:id="nameRegister" prefHeight="25.0" prefWidth="280.0" promptText="Vorname" />
+  <TextField fx:id="surnameRegister" prefHeight="25.0" prefWidth="280.0" promptText="Nachname" />
+  <TextField fx:id="mailRegister" prefHeight="25.0" prefWidth="280.0" promptText="E-Mail Addresse" />
+  <TextField fx:id="passwordRegister" prefHeight="25.0" prefWidth="280.0" promptText="Passwort" />
+  <Button fx:id="registerButton" mnemonicParsing="false" onAction="#handleRegisterButtonClick" text="Registrieren" style="-fx-background-color: #808080;"/>
+  <Label fx:id="registerLabel" text="Haben Sie ein Konto?" />
+</VBox>

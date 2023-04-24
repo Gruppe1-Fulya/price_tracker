@@ -10,7 +10,11 @@ import javafx.scene.image.ImageView;
 import java.net.MalformedURLException;
 
 public class Controller {
+  // login scene
 
+  // register scene
+
+  // Main Scene
   @FXML
   private Button myButton;
 

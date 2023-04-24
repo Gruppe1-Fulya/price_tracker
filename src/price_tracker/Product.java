@@ -65,10 +65,9 @@ public class Product {
     this.image = new Image(imageUrl);
 
     int dpIndex = this.url.indexOf("dp/", 0);
-    int endOfIdIndex = this.url.indexOf("/", dpIndex+3);
-    String productId = this.url.substring(dpIndex+3, endOfIdIndex);
+    String productId = this.url.substring(dpIndex+3, dpIndex+13);
 
-    String newUrl = "https://www.amazon.com.tr/dp/" + productId + "/";
+    String newUrl = "https://www.amazon.com.tr/dp/" + productId;
     this.url = newUrl;
     
     double price = Double.parseDouble(doc.select("span.a-price-whole").first().text().replaceAll("[,.]", ""));
@@ -130,11 +129,11 @@ public class Product {
     String endMarker = "</h3>";
     int startIndex = html.indexOf(startMarker);
     if (startIndex < 0) {
-        return null;
+      return null;
     }
     int endIndex = html.indexOf(endMarker, startIndex + startMarker.length());
     if (endIndex < 0) {
-        return null;
+      return null;
     }
     String productName = html.substring(startIndex + startMarker.length(), endIndex);
     return productName.trim();
@@ -157,7 +156,7 @@ public class Product {
       Double price = Double.parseDouble(priceString);
       return price;
     } catch (NumberFormatException e) {
-        return null;
+      return null;
     }
   }
 

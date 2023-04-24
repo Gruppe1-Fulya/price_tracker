@@ -12,7 +12,7 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception{
     Parent root = FXMLLoader.load(getClass().getResource("price_tracker.fxml"));
-    Image icon = new Image(getClass().getResourceAsStream("icon.png"));
+    Image icon = new Image(getClass().getResourceAsStream("./img/icon.png"));
     primaryStage.getIcons().add(icon);
     primaryStage.setTitle("Price Tracker");
     primaryStage.setScene(new Scene(root, 600, 400));
