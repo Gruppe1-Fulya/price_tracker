@@ -6,14 +6,13 @@ import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedReader;
 import org.jsoup.nodes.Document;
-import javafx.scene.image.Image;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
 public class Product {
   private String url;
   private String name;
-  private Image image;
+  private String image;
   private ArrayList<Double> prices;
   
   public Product(String url) throws Exception {
@@ -38,11 +37,11 @@ public class Product {
     this.name = name;
   }
 
-  public Image getImage() {
+  public String getImage() {
     return image;
   }
 
-  public void setImage(Image image) {
+  public void setImage(String image) {
     this.image = image;
   }
 
@@ -62,13 +61,12 @@ public class Product {
     this.name = doc.select("span#productTitle").first().text();
 
     String imageUrl = doc.select("img[data-old-hires]").first().attr("src");
-    this.image = new Image(imageUrl);
+    this.image = imageUrl;
 
     int dpIndex = this.url.indexOf("dp/", 0);
-    int endOfIdIndex = this.url.indexOf("/", dpIndex+3);
-    String productId = this.url.substring(dpIndex+3, endOfIdIndex);
+    String productId = this.url.substring(dpIndex+3, dpIndex+13);
 
-    String newUrl = "https://www.amazon.com.tr/dp/" + productId + "/";
+    String newUrl = "https://www.amazon.com.tr/dp/" + productId;
     this.url = newUrl;
     
     double price = Double.parseDouble(doc.select("span.a-price-whole").first().text().replaceAll("[,.]", ""));
@@ -80,7 +78,7 @@ public class Product {
     this.name = doc.selectFirst("h1.product-name#product-name").text();
 
     String imageUrl = doc.selectFirst("img.product-image").attr("src");
-    this.image = new Image(imageUrl);
+    this.image = imageUrl;
 
     double price = Double.parseDouble(doc.selectFirst("span[data-bind*=currentPriceBeforePoint]").text().replace(",", "."));
     this.prices.add(price);
@@ -90,7 +88,7 @@ public class Product {
     String html = fetchHtml(getUrl());
     String imageUrl = findImageUrl(html);
     
-    this.image = new Image(imageUrl);
+    this.image = imageUrl;
     this.name = findProductName(html);
 
     this.prices.add(findPrice(html));
@@ -130,11 +128,11 @@ public class Product {
     String endMarker = "</h3>";
     int startIndex = html.indexOf(startMarker);
     if (startIndex < 0) {
-        return null;
+      return null;
     }
     int endIndex = html.indexOf(endMarker, startIndex + startMarker.length());
     if (endIndex < 0) {
-        return null;
+      return null;
     }
     String productName = html.substring(startIndex + startMarker.length(), endIndex);
     return productName.trim();
@@ -157,7 +155,7 @@ public class Product {
       Double price = Double.parseDouble(priceString);
       return price;
     } catch (NumberFormatException e) {
-        return null;
+      return null;
     }
   }
 

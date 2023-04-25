@@ -2,15 +2,20 @@ package price_tracker;
 
 import javafx.fxml.FXML;
 import java.io.IOException;
-import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.TextField;
 
 import java.net.MalformedURLException;
 
 public class Controller {
+  // login scene
 
+  // register scene
+
+  // Main Scene
   @FXML
   private Button myButton;
 
@@ -40,7 +45,7 @@ public class Controller {
       nameLabel.setText(product.getName());
       priceLabel.setText(""+product.getPrices().get(product.getPrices().size() - 1));
 
-      ProductImageView.setImage(product.getImage());
+      ProductImageView.setImage(new Image(product.getImage()));
       urlLabel.setVisible(true);
       nameLabel.setVisible(true);
       priceLabel.setVisible(true);
