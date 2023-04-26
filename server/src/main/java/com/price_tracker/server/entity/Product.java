@@ -2,9 +2,13 @@ package com.price_tracker.server.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table
+@Table(name = "products")
 public class Product {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
@@ -17,6 +21,9 @@ public class Product {
 
   @Column(nullable = false)
   private String url;
+
+  @ManyToMany(mappedBy = "products")
+  private List<Watchlist> watchlists = new ArrayList<>();
 
   public String getName() { return name; }
 
@@ -39,6 +46,10 @@ public class Product {
   public void setUrl(String url) {
     this.url = url;
   }
+
+  public int getId() { return id; }
+
+  public List<Watchlist> getWatchlists() { return watchlists; }
 
   public Product() {
 

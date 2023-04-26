@@ -5,8 +5,12 @@ import com.price_tracker.server.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ProductService {
+
   private final ProductRepo productRepo;
 
   @Autowired
@@ -14,7 +18,23 @@ public class ProductService {
     this.productRepo = productRepo;
   }
 
+  public List<Product> getAllProducts() {
+    return productRepo.findAll();
+  }
+
+  public Optional<Product> getProductById(int productId) {
+    return productRepo.findById(productId);
+  }
+
+  public Product findByURL(String URL) {
+    return productRepo.findByURL(URL);
+  }
+
   public Product saveProduct(Product product) {
     return productRepo.save(product);
+  }
+
+  public void deleteProductById(int productId) {
+    productRepo.deleteById(productId);
   }
 }

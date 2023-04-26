@@ -2,8 +2,10 @@ package com.price_tracker.server.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+
 @Entity
-@Table
+@Table(name = "users")
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,9 @@ public class User {
 
   @Column(nullable = false)
   private String password;
+
+  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+  private ArrayList<Watchlist> watchlists = new ArrayList<>();
 
   public String getEmail() {
     return email;
@@ -50,6 +55,8 @@ public class User {
   public void setPassword(String password) {
     this.password = password;
   }
+
+  public int getId() { return id; }
 
   public User() {
 
