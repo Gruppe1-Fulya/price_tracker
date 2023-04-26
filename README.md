@@ -1,4 +1,4 @@
-# Java Desktop App with Server-Client Model
+# Price Tracker Application Source Code
 
 This is a Java desktop application built with a server-client model. This desktop application enables users to track prices on their watchlist and receive email alerts when certain conditions are met. Users can add items to their watchlist, and the app will periodically check the prices against the user's specified criteria. When the price meets the conditions, the app sends an email alert to notify the user. The app is useful for automating the price tracking process and saving time and effort for users who want to stay informed about price changes.
 
