@@ -32,11 +32,11 @@ public class WatchlistController {
   }
 
   @PostMapping("/{watchlistId}/addProduct")
-  public ResponseEntity<Watchlist> addProductToWatchlist(@PathVariable int watchlistId, @RequestBody Product product) {
+  public ResponseEntity<Watchlist> addProductToWatchlist(@PathVariable int watchlistId, @RequestBody int productID) {
     Optional<Watchlist> optionalWatchlist = watchlistService.getWatchlistById(watchlistId);
     if (optionalWatchlist.isPresent()) {
       Watchlist watchlist = optionalWatchlist.get();
-      watchlistService.addProductToWatchlist(watchlist, product);
+      watchlistService.addProductToWatchlist(watchlistId, productID);
       return new ResponseEntity<>(watchlist, HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -30,13 +30,8 @@ public class UserService {
     return userRepo.findByEmail(email);
   }
 
-  public void delete(User user) {
-    userRepo.delete(user);
-  }
-
   public boolean checkPassword(User user, String password) {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     return encoder.matches(password, user.getPassword());
   }
-
 }

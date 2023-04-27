@@ -1,11 +1,10 @@
 package com.price_tracker.server.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "alarms")
+@Table(name = "alarm")
 public class Alarm {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,13 +16,13 @@ public class Alarm {
   @Column(nullable = false)
   private LocalDate date_created;
 
-  @Column(nullable = false)
+  @Column(nullable = false, name = "Condit")
   private String condition;
 
   @Column(nullable = false)
   private double target_price;
 
-  @Column(nullable = false)
+  @Column()
   private LocalDate date_triggered = null;
 
   public int getProduct_id() {

@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 public class Product {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
@@ -22,7 +21,7 @@ public class Product {
   @Column(nullable = false)
   private String url;
 
-  @ManyToMany(mappedBy = "products")
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Watchlist> watchlists = new ArrayList<>();
 
   public String getName() { return name; }
@@ -49,7 +48,6 @@ public class Product {
 
   public int getId() { return id; }
 
-  public List<Watchlist> getWatchlists() { return watchlists; }
 
   public Product() {
 

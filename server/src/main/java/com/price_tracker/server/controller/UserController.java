@@ -5,8 +5,12 @@ import com.price_tracker.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
 
 @Controller
 @RequestMapping("/users")
@@ -19,31 +23,58 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable int id) {
-    User user = userService.findById(id);
+  @Autowired
+  private BCryptPasswordEncoder passwordEncoder;
+
+  @GetMapping("/details/{email}")
+  public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+    User user = userService.findByEmail(email);
     if (user == null) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
     } else {
-      return new ResponseEntity<>(user, HttpStatus.OK);
+      User reponseUser = new User();
+      reponseUser.setEmail(user.getEmail());
+      reponseUser.setName(user.getName());
+      reponseUser.setSurname(user.getSurname());
+      return new ResponseEntity<>(reponseUser, HttpStatus.OK);
     }
   }
 
-  @PostMapping
-  public ResponseEntity<User> createUser(@RequestBody User user) {
+  @PostMapping("/create")
+  public ResponseEntity<?> createUser(@RequestBody User user) {
+    User existingUser = userService.findByEmail(user.getEmail());
+    if (existingUser != null) {
+      // User already exists, return a conflict response
+      return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+    }
+
+    // Encode the password before saving the user
+    String encodedPassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encodedPassword);
+
     User savedUser = userService.save(user);
-    return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
   }
 
-  @PostMapping("/{id}/check-password")
-  public ResponseEntity<Boolean> checkPassword(@PathVariable int id, @RequestParam String password) {
-    User user = userService.findById(id);
-    if (user == null) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    } else {
-      boolean passwordMatches = userService.checkPassword(user, password);
-      return new ResponseEntity<>(passwordMatches, HttpStatus.OK);
+  @PostMapping("/login")
+  public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+    String email = credentials.get("email");
+    String password = credentials.get("password");
+
+    User existingUser = userService.findByEmail(email);
+    if (existingUser == null) {
+      // User does not exist, return a 404 response
+      return ResponseEntity.notFound().build();
     }
+
+    boolean passwordMatches = userService.checkPassword(existingUser, password);
+    if (!passwordMatches) {
+      // Password does not match, return a 401 response
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+    }
+
+    // Password matches, return a success response
+    return ResponseEntity.ok(existingUser);
   }
 
 }

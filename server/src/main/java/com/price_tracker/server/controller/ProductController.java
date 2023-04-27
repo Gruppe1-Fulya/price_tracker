@@ -28,12 +28,9 @@ public class ProductController {
   }
 
   @GetMapping("/{productId}")
-  public ResponseEntity<Product> getProductById(@PathVariable int productId) {
-    Optional<Product> product = productService.getProductById(productId);
-    if (product.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(product.get());
+  public Product getProductById(@PathVariable int productId) {
+    Product product = productService.getProductById(productId);
+    return product;
   }
 
   @PostMapping
