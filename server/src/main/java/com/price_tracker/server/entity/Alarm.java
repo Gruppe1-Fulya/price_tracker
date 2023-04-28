@@ -14,6 +14,9 @@ public class Alarm {
   private int product_id;
 
   @Column(nullable = false)
+  private int watchlist_id;
+
+  @Column(nullable = false)
   private LocalDate date_created;
 
   @Column(nullable = false, name = "Condit")
@@ -69,8 +72,13 @@ public class Alarm {
     return id;
   }
 
-  public Alarm(int product_id, LocalDate date_created, String condition, double target_price) {
+  public int getWatchlist_id() { return watchlist_id; }
+
+  public void setWatchlist_id(int watchlist_id) { this.watchlist_id = watchlist_id; }
+
+  public Alarm(int product_id, int watchlist_id, LocalDate date_created, String condition, double target_price) {
     this.product_id = product_id;
+    this.watchlist_id = watchlist_id;
     this.date_created = date_created;
     this.condition = condition;
     this.target_price = target_price;

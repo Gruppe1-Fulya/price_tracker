@@ -23,8 +23,9 @@ public class Watchlist {
   public Watchlist() {
   }
 
-  public Watchlist(User user) {
+  public Watchlist(User user, Product product) {
     this.user = user;
+    this.product = product;
   }
 
   public int getId() {

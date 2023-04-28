@@ -15,16 +15,14 @@ import java.util.Map;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
   private final UserService userService;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService, BCryptPasswordEncoder passwordEncoder) {
     this.userService = userService;
+    this.passwordEncoder = passwordEncoder;
   }
-
-  @Autowired
-  private BCryptPasswordEncoder passwordEncoder;
 
   @GetMapping("/details/{email}")
   public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
@@ -40,7 +38,7 @@ public class UserController {
     }
   }
 
-  @PostMapping("/create")
+  @PostMapping("/register")
   public ResponseEntity<?> createUser(@RequestBody User user) {
     User existingUser = userService.findByEmail(user.getEmail());
     if (existingUser != null) {
@@ -76,5 +74,4 @@ public class UserController {
     // Password matches, return a success response
     return ResponseEntity.ok(existingUser);
   }
-
 }

@@ -1,5 +1,7 @@
 package com.price_tracker.server.service;
 
+import java.util.List;
+import com.price_tracker.server.entity.Alarm;
 import com.price_tracker.server.entity.User;
 import org.springframework.stereotype.Service;
 import com.price_tracker.server.entity.Product;
@@ -9,12 +11,8 @@ import com.price_tracker.server.repository.ProductRepo;
 import com.price_tracker.server.repository.WatchlistRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class WatchlistService {
-
   private final WatchlistRepo watchlistRepo;
   private final ProductRepo productRepo;
   private final AlarmRepo alarmRepo;
@@ -26,27 +24,41 @@ public class WatchlistService {
     this.alarmRepo = alarmRepo;
   }
 
-  public List<Watchlist> getAllWatchlists() {
-    return watchlistRepo.findAll();
-  }
-
-  public Optional<Watchlist> getWatchlistById(int id) {
-    return watchlistRepo.findById(id);
-  }
-
-  public Watchlist createWatchlist(User user) {
-    Watchlist watchlist = new Watchlist(user);
+  public Watchlist createWatchlist(User user, Product product) {
+    product = productRepo.save(product); // persist the product entity first
+    Watchlist watchlist = new Watchlist(user, product);
     return watchlistRepo.save(watchlist);
   }
 
-  public void addProductToWatchlist(int userId, int productId) {
-    Product product = productRepo.findById(productId);
-    Watchlist watchlist = new Watchlist();
-    watchlist.setProduct(product);
-    watchlistRepo.save(watchlist);
+  public void deleteWatchlist(Watchlist watchlist) {
+    watchlistRepo.delete(watchlist);
   }
 
-  public void deleteWatchlist(int id) {
-    watchlistRepo.deleteById(id);
+  public void setAlarm(Watchlist watchlist, Alarm alarm) {
+    if (watchlist.getAlarm() == null) {
+      watchlist.setAlarm(alarm);
+      alarmRepo.save(alarm);
+      watchlistRepo.save(watchlist);
+    } else {
+      deleteAlarm(watchlist);
+      setAlarm(watchlist, alarm);
+    }
+  }
+
+
+
+  public void deleteAlarm(Watchlist watchlist) {
+    int alarm_id = watchlist.getAlarm().getId();
+    watchlist.setAlarm(null);
+    watchlistRepo.save(watchlist);
+    alarmRepo.deleteById(alarm_id);
+  }
+
+  public List<Watchlist> getWatchlistsForUser(int user_id) {
+    return watchlistRepo.findByUserId(user_id);
+  }
+
+  public Watchlist findById(int id) {
+    return watchlistRepo.findById(id);
   }
 }

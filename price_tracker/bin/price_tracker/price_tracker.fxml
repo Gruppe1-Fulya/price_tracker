@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="price_tracker.Controller">
+    <TextField fx:id="inputField" prefHeight="25.0" prefWidth="280.0" promptText="Enter product's URL..." />
+    <Button fx:id="myButton" mnemonicParsing="false" onAction="#handleAddProductButtonClick" text="Track" style="-fx-background-color: #808080;"/>
+    <ImageView fx:id="ProductImageView" fitWidth="200.0" fitHeight="250.0" />
+    <Label fx:id="nameLabel" visible="false" />
+    <Label fx:id="priceLabel" visible="false" />
+    <Label fx:id="urlLabel" visible="false" />
+</VBox>
