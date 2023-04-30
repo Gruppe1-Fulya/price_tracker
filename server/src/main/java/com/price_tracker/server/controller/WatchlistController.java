@@ -36,9 +36,9 @@ public class WatchlistController {
 
   @PostMapping("/add-product")
   public ResponseEntity<Watchlist> createWatchlistForUser(@RequestParam String email,
-                                          @RequestParam String name,
-                                          @RequestParam String url,
-                                          @RequestParam String image) {
+                                                          @RequestParam String name,
+                                                          @RequestParam String url,
+                                                          @RequestParam String image) {
     User user = userService.findByEmail(email);
     if (user != null) {
       if (productService.findByURL(url) == null) {

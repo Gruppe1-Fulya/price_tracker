@@ -1,5 +1,6 @@
 package com.price_tracker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +19,7 @@ public class Watchlist {
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
+  @JsonIgnore
   private User user;
 
   public Watchlist() {

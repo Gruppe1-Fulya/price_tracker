@@ -59,4 +59,5 @@ public class WatchlistService {
   public Watchlist findById(int id) {
     return watchlistRepo.findById(id);
   }
+  public Watchlist findByAlarmId(int alarm_id) { return watchlistRepo.findByAlarmId(alarm_id); }
 }

@@ -31,6 +31,7 @@ public class UserController {
       return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
     } else {
       User reponseUser = new User();
+      reponseUser.setId(user.getId());
       reponseUser.setEmail(user.getEmail());
       reponseUser.setName(user.getName());
       reponseUser.setSurname(user.getSurname());

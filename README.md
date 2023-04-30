@@ -21,6 +21,7 @@ The application is built using the following technologies:
 - Spring
 - MySQL
 - Jsoup
+- Google SMTP Server
 
 ## Installation and Setup
 

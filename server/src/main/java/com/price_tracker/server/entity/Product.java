@@ -1,5 +1,6 @@
 package com.price_tracker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,10 @@ public class Product {
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Watchlist> watchlists = new ArrayList<>();
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonIgnore
+  private List<Price> prices = new ArrayList<>();
 
   public String getName() { return name; }
 
@@ -48,6 +53,13 @@ public class Product {
 
   public int getId() { return id; }
 
+  public List<Price> getPrices() {
+    return prices;
+  }
+
+  public void setPrices(List<Price> prices) {
+    this.prices = prices;
+  }
 
   public Product() {
 
