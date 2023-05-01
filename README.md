@@ -37,10 +37,15 @@ To run the application, follow these steps:
 
 Once the application is running, you can use the following steps to use the application:
 
-1. Log in with your user credentials.
-2. Enter a website URL to scrape data from.
-3. View the scraped data in a user-friendly way in the application.
+1. Sign up or sign in to your account.
+2. Search for a product you want to track and add it to your watchlist.
+3. Set an alarm for the product by specifying the desired price or availability condition.
+4. Get notified when the condition is met.
 
 ## License
 
 This project is licensed under the MIT license. See the `LICENSE` file for more information.
+
+## Notification Mail Template
+
+[E-mail template](https://raw.githubusercontent.com/Gruppe1-Fulya/price_tracker/main/server/src/main/resources/static/mail_template.png)
