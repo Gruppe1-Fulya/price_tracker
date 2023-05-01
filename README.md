@@ -48,4 +48,4 @@ This project is licensed under the MIT license. See the `LICENSE` file for more 
 
 ## Notification Mail Template
 
-[E-mail template](https://raw.githubusercontent.com/Gruppe1-Fulya/price_tracker/main/server/src/main/resources/static/mail_template.png)
+![E-mail template](https://raw.githubusercontent.com/Gruppe1-Fulya/price_tracker/main/server/src/main/resources/static/mail_template.png)
