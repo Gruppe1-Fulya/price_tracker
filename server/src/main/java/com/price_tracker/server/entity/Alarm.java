@@ -11,7 +11,7 @@ public class Alarm {
   private int id;
 
   @Column(nullable = false)
-  private int product_id;
+  private int productId;
 
   @Column(nullable = false)
   private int watchlist_id;
@@ -28,12 +28,12 @@ public class Alarm {
   @Column()
   private LocalDate date_triggered = null;
 
-  public int getProduct_id() {
-    return product_id;
+  public int getProductOd() {
+    return productId;
   }
 
-  public void setProduct_id(int product_id) {
-    this.product_id = product_id;
+  public void setProductId(int product_id) {
+    this.productId = product_id;
   }
 
   public LocalDate getDate_created() {
@@ -77,7 +77,7 @@ public class Alarm {
   public void setWatchlist_id(int watchlist_id) { this.watchlist_id = watchlist_id; }
 
   public Alarm(int product_id, int watchlist_id, LocalDate date_created, String condition, double target_price) {
-    this.product_id = product_id;
+    this.productId = product_id;
     this.watchlist_id = watchlist_id;
     this.date_created = date_created;
     this.condition = condition;

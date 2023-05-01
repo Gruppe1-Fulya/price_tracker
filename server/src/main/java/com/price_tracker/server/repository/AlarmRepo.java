@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface AlarmRepo extends JpaRepository<Alarm, Integer> {
   Alarm findById(int id);
-  List<Alarm> findByProductId(int product_id);
+  List<Alarm> findByProductId(int productId);
 }

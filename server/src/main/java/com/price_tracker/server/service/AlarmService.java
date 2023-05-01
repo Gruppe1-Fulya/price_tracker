@@ -39,9 +39,9 @@ public class AlarmService {
       case "ANY_CHANGE":
         // Check if current price is different from the last price
         if (previous_price != current_price) {
-          Watchlist wl = watchlistService.findByAlarmId(alarm.getWatchlist_id());
+          Watchlist wl = watchlistService.findById(alarm.getWatchlist_id());
           String email = wl.getUser().getEmail();
-          emailService.sendEmail(email, condition);
+          emailService.sendEmail(email, wl.getProduct(), current_price);
           alarm.setDate_triggered(LocalDate.now());
           alarmRepo.save(alarm);
           return true;
@@ -50,9 +50,9 @@ public class AlarmService {
       case "EQUALS_TARGET":
         // Check if current price equals target price
         if (current_price == alarm.getTarget_price()) {
-          Watchlist wl = watchlistService.findByAlarmId(alarm.getWatchlist_id());
+          Watchlist wl = watchlistService.findById(alarm.getWatchlist_id());
           String email = wl.getUser().getEmail();
-          emailService.sendEmail(email, condition);
+          emailService.sendEmail(email, wl.getProduct(), current_price);
           alarm.setDate_triggered(LocalDate.now());
           alarmRepo.save(alarm);
           return true;
@@ -61,9 +61,9 @@ public class AlarmService {
       case "BELOW_TARGET":
         // Check if current price is below target price
         if (current_price < alarm.getTarget_price()) {
-          Watchlist wl = watchlistService.findByAlarmId(alarm.getWatchlist_id());
+          Watchlist wl = watchlistService.findById(alarm.getWatchlist_id());
           String email = wl.getUser().getEmail();
-          emailService.sendEmail(email, condition);
+          emailService.sendEmail(email, wl.getProduct(), current_price);
           alarm.setDate_triggered(LocalDate.now());
           alarmRepo.save(alarm);
           return true;
@@ -72,9 +72,9 @@ public class AlarmService {
       case "ABOVE_TARGET":
         // Check if current price is above target price
         if (current_price > alarm.getTarget_price()) {
-          Watchlist wl = watchlistService.findByAlarmId(alarm.getWatchlist_id());
+          Watchlist wl = watchlistService.findById(alarm.getWatchlist_id());
           String email = wl.getUser().getEmail();
-          emailService.sendEmail(email, condition);
+          emailService.sendEmail(email, wl.getProduct(), current_price);
           alarm.setDate_triggered(LocalDate.now());
           alarmRepo.save(alarm);
           return true;

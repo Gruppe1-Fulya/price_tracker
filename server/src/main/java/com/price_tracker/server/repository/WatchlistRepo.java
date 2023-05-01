@@ -8,5 +8,4 @@ import java.util.List;
 public interface WatchlistRepo extends JpaRepository<Watchlist, Integer> {
   List<Watchlist> findByUserId(int user_id);
   Watchlist findById(int id);
-  Watchlist findByAlarmId(int alarm_id);
 }

@@ -104,19 +104,19 @@ public class PriceService {
         priceRepo.save(currentPrice);
       } else if (currentPrice != null && currentPrice.getPrice() != newPrice && currentPrice.getDate().isEqual(LocalDate.now())) {
         // if price has changed but date is same
+        alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
         currentPrice.setDate(LocalDate.now());
         currentPrice.setProduct(product);
         currentPrice.setPrice(newPrice);
         priceRepo.save(currentPrice);
-        alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
       } else if (currentPrice != null && currentPrice.getPrice() != newPrice && currentPrice.getDate().isBefore(LocalDate.now())) {
         // if price has changed and date is not same
+        alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
         currentPrice = new Price();
         currentPrice.setDate(LocalDate.now());
         currentPrice.setProduct(product);
         currentPrice.setPrice(newPrice);
         priceRepo.save(currentPrice);
-        alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
       } else if (currentPrice.getPrice() == newPrice && currentPrice.getDate().isBefore(LocalDate.now())) {
         // add a new day even though the price hasn't changed
         currentPrice = new Price();

@@ -36,8 +36,8 @@ public class WatchlistService {
 
   public void setAlarm(Watchlist watchlist, Alarm alarm) {
     if (watchlist.getAlarm() == null) {
-      watchlist.setAlarm(alarm);
       alarmRepo.save(alarm);
+      watchlist.setAlarm(alarm);
       watchlistRepo.save(watchlist);
     } else {
       deleteAlarm(watchlist);
@@ -59,5 +59,4 @@ public class WatchlistService {
   public Watchlist findById(int id) {
     return watchlistRepo.findById(id);
   }
-  public Watchlist findByAlarmId(int alarm_id) { return watchlistRepo.findByAlarmId(alarm_id); }
 }
