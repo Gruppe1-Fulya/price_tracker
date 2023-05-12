@@ -15,14 +15,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.1485499225149435" layoutY="53.0" prefHeight="519.0" prefWidth="905.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="571.0" prefWidth="194.0">
                <children>
-                  <TextField layoutY="14.0" prefHeight="46.0" prefWidth="216.0" promptText="+ Add a new product" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TextField fx:id="addProductTextField" layoutY="14.0" prefHeight="46.0" prefWidth="216.0" promptText="+ Add a new product" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -45,7 +44,7 @@
                                 <items>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <LineChart layoutX="-104.0" layoutY="-45.0" prefHeight="255.0" prefWidth="452.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <LineChart fx:id="productPriceGraph" layoutX="-104.0" layoutY="-45.0" prefHeight="255.0" prefWidth="452.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <xAxis>
                                               <CategoryAxis side="BOTTOM" />
                                             </xAxis>
@@ -57,7 +56,7 @@
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Label layoutX="3.0" layoutY="2.0" prefHeight="54.0" prefWidth="383.0" text="Product #1" AnchorPane.leftAnchor="3.0">
+                                          <Label fx:id="productNameLabel" layoutX="3.0" layoutY="2.0" prefHeight="54.0" prefWidth="383.0" text="Product #1" AnchorPane.leftAnchor="3.0">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -65,7 +64,7 @@
                                                 <Insets left="2.0" />
                                              </padding>
                                           </Label>
-                                          <ImageView fitHeight="184.0" fitWidth="184.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                          <ImageView fx:id="productImageLabel" fitHeight="184.0" fitWidth="184.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
                                              <image>
                                                 <Image url="@../../../../../../../../Users/yavuz/Downloads/photo_2023-02-27_15-25-24.jpg" />
                                              </image>
@@ -73,7 +72,7 @@
                                                 <Rectangle2D />
                                              </viewport>
                                           </ImageView>
-                                          <Label layoutX="3.0" layoutY="62.0" prefHeight="46.0" prefWidth="383.0" text="Link">
+                                          <Label fx:id="productLinkLabel" layoutX="3.0" layoutY="62.0" prefHeight="46.0" prefWidth="383.0" text="Link">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -81,7 +80,7 @@
                                                 <Insets left="2.0" />
                                              </padding>
                                           </Label>
-                                          <Label layoutX="3.0" layoutY="122.0" prefHeight="30.0" prefWidth="383.0" text="Price">
+                                          <Label fx:id="productPriceLabel" layoutX="3.0" layoutY="122.0" prefHeight="30.0" prefWidth="383.0" text="Price">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -99,20 +98,19 @@
                            <children>
                               <AnchorPane prefHeight="174.0" prefWidth="184.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <TextField layoutX="3.0" layoutY="4.0" prefHeight="46.0" prefWidth="180.0" promptText="+ Set a new alarm" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0">
+                                    <TextField fx:id="setAlarmTextField" layoutX="3.0" layoutY="4.0" prefHeight="46.0" prefWidth="180.0" promptText="+ Set a new alarm" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </TextField>
-                                    <ComboBox layoutX="3.0" layoutY="65.0" prefHeight="46.0" prefWidth="180.0" promptText="Condition" visibleRowCount="2" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" />
-                                    <TextField layoutX="3.0" layoutY="127.0" prefHeight="46.0" prefWidth="180.0" promptText="Price" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                                    <ComboBox fx:id="conditionBox" layoutX="3.0" layoutY="65.0" prefHeight="46.0" prefWidth="180.0" promptText="Condition" visibleRowCount="2" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" />
+                                    <TextField fx:id="priceTextField" layoutX="3.0" layoutY="127.0" prefHeight="46.0" prefWidth="180.0" promptText="Price" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </TextField>
                                  </children>
                               </AnchorPane>
-                              <ListView layoutX="2.0" layoutY="215.0" prefHeight="243.0" prefWidth="184.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="231.2" />
                               <Label alignment="CENTER" contentDisplay="CENTER" layoutY="192.0" prefHeight="38.0" prefWidth="178.0" text="Your Alarms" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                  <font>
                                     <Font size="16.0" />
@@ -131,15 +129,15 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="698.0" prefHeight="54.0" prefWidth="206.0" style="-fx-border-color: black;" text="Price Tracker" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" prefHeight="54.0" prefWidth="216.0" text="Welcome, Kerem" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" prefHeight="54.0" prefWidth="216.0" style="-fx-border-color: black;" text="Welcome, Kerem" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="54.0" fitWidth="162.0" layoutX="729.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <image>
+            <Image url="@../../../static/logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

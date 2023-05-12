@@ -11,9 +11,10 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("price_tracker.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Image icon = new Image(getClass().getResourceAsStream("/static/icon.png"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        // stage.setMaximized(true);
         stage.setTitle("Price Tracker");
         stage.getIcons().add(icon);
         stage.setScene(scene);
