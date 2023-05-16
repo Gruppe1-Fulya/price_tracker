@@ -81,8 +81,7 @@ public class ProductInterface {
 
     String imageUrl = doc.selectFirst("img.product-image").attr("src");
     this.image = imageUrl;
-
-    double price = Double.parseDouble(doc.selectFirst("span[data-bind*=currentPriceBeforePoint]").text().replace(",", "."));
+    double price = Double.parseDouble(doc.selectFirst("span[data-bind*=currentPriceBeforePoint]").text().replace(".", ""));
     this.prices.add(price);
   }
 

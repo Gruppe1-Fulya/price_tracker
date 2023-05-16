@@ -28,7 +28,7 @@ public class Alarm {
   @Column()
   private LocalDate date_triggered = null;
 
-  public int getProductOd() {
+  public int getProductId() {
     return productId;
   }
 
