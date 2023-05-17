@@ -14,7 +14,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Image icon = new Image(getClass().getResourceAsStream("/static/icon.png"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        // stage.setMaximized(true);
+        stage.setResizable(false);
         stage.setTitle("Price Tracker");
         stage.getIcons().add(icon);
         stage.setScene(scene);

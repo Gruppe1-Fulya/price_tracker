@@ -6,4 +6,6 @@ module com.price_tracker.client {
 
   opens com.price_tracker.client to javafx.fxml;
     exports com.price_tracker.client;
+  exports com.price_tracker.client.objects;
+  opens com.price_tracker.client.objects to javafx.fxml;
 }

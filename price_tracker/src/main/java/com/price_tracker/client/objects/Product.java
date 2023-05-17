@@ -1,23 +1,22 @@
-package com.price_tracker.client;
+package com.price_tracker.client.objects;
 
 import java.io.IOException;
 
 import java.net.URL;
 import org.jsoup.Jsoup;
 import java.util.ArrayList;
-import java.io.IOException;
 import java.io.BufferedReader;
 import org.jsoup.nodes.Document;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
-public class ProductInterface {
+public class Product {
   private String url;
   private String name;
   private String image;
   private ArrayList<Double> prices;
 
-  public ProductInterface(String url) throws Exception {
+  public Product(String url) throws Exception {
     this.url = url;
     this.prices = new ArrayList<>();
     extractData();

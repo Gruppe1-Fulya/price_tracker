@@ -1,6 +1,6 @@
 package com.price_tracker.client;
 
-import com.price_tracker.client.ProductInterface;
+import com.price_tracker.client.objects.Product;
 import javafx.fxml.FXML;
 import java.io.IOException;
 import javafx.scene.image.Image;
@@ -34,7 +34,7 @@ public class Controller {
         String text = inputField.getText();
         inputField.clear();
         try {
-            ProductInterface product = new ProductInterface(text);
+            Product product = new Product(text);
 
             urlLabel.setText(product.getUrl());
             nameLabel.setText(product.getName());

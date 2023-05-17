@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.price_tracker.client.RegisterController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F1F1F1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.price_tracker.client.RegisterController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="50.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="451.0" minWidth="10.0" prefWidth="447.0" />
@@ -24,17 +25,26 @@
     <children>
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <children>
-                <Button fx:id="registerButton" layoutX="200.0" layoutY="195.0" mnemonicParsing="false" text="Button" onAction="#onRegisterButtonClick"/>
-                <TextField fx:id="emailTextField" layoutX="151.0" layoutY="126.0" promptText="e-mail" />
-                <TextField fx:id="passwordTextField" layoutX="151.0" layoutY="163.0" promptText="password" />
-                <Label fx:id="loginLabel" layoutX="180.0" layoutY="229.0" text="Already account?" onMouseClicked="#onLoginLabelClick"/>
-                <ImageView fitHeight="50.0" fitWidth="149.0" layoutX="151.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../static/logo.png" />
-                    </image>
-                </ImageView>
-                <TextField fx:id="nameTextField" layoutX="151.0" layoutY="56.0" promptText="name" />
-                <TextField fx:id="surnameTextField" layoutX="151.0" layoutY="91.0" promptText="surname" />
+                <Button fx:id="registerButton" layoutX="186.0" layoutY="205.0" mnemonicParsing="false" onAction="#onRegisterButtonClick" style="-fx-background-color: #F1F1F1; -fx-border-color: #000000; -fx-border-radius: 5;" text="Registrieren" />
+                <TextField fx:id="emailTextField" layoutX="141.0" layoutY="118.0" prefHeight="27.0" prefWidth="172.0" promptText="E-Mail" style="-fx-background-color: #F1F1F1; -fx-border-color: #000000; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+                <TextField fx:id="passwordTextField" layoutX="141.0" layoutY="161.0" prefHeight="27.0" prefWidth="172.0" promptText="Passwort" style="-fx-background-color: #F1F1F1; -fx-border-color: #000000; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+                <Label fx:id="loginLabel" layoutX="173.0" layoutY="243.0" onMouseClicked="#onLoginLabelClick" text="Besitzen Sie ein Konto?">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+                <TextField fx:id="surnameTextField" layoutX="141.0" layoutY="78.0" prefHeight="27.0" prefWidth="172.0" promptText="Nachname" style="-fx-background-color: #F1F1F1; -fx-border-color: #000000; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+                <TextField fx:id="nameTextField" layoutX="141.0" layoutY="37.0" prefHeight="26.0" prefWidth="172.0" promptText="Name" style="-fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-color: #000000; -fx-border-width: 0 1 1 1;" />
+            <ImageView fitHeight="36.0" fitWidth="172.0" layoutX="140.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../static/logo.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="warningLabel" layoutX="116.0" layoutY="-42.0" text="Diese Emailadresse existiert bereits!" textFill="#dd0606" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
     </children>
