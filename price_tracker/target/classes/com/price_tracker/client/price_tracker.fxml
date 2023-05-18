@@ -31,7 +31,7 @@
   <children>
     <Pane prefHeight="200.0" prefWidth="200.0">
       <children>
-        <Label contentDisplay="CENTER" layoutX="14.0" layoutY="11.0" prefHeight="54.0" prefWidth="300.0" text="Willkommen, Kerem" textAlignment="CENTER">
+        <Label fx:id="welcomeLabel" contentDisplay="CENTER" layoutX="14.0" layoutY="11.0" prefHeight="54.0" prefWidth="300.0" text="Willkommen, Kerem" textAlignment="CENTER">
           <font>
             <Font size="24.0" />
           </font>
@@ -58,12 +58,12 @@
       <children>
         <Pane prefHeight="200.0" prefWidth="200.0">
           <children>
-            <TextField layoutX="8.0" layoutY="29.0" prefHeight="37.0" prefWidth="306.0" promptText="+ Produkt mit URL hinzufügen" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+            <TextField fx:id="addProductTextField" layoutX="8.0" layoutY="29.0" prefHeight="37.0" prefWidth="306.0" promptText="+ Produkt mit URL hinzufügen" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" onAction="#handleAddProductTextFieldEnter"/>
           </children>
         </Pane>
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
           <children>
-            <ListView layoutX="9.0" layoutY="11.0" prefHeight="603.0" prefWidth="306.0" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+            <ListView fx:id="watchlistListView" layoutX="9.0" layoutY="11.0" prefHeight="603.0" prefWidth="306.0" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
             <Label layoutX="90.0" layoutY="-3.0" text="Ihre Merkliste">
               <font>
                 <Font size="24.0" />
@@ -84,7 +84,7 @@
       <children>
         <Pane prefHeight="200.0" prefWidth="200.0">
           <children>
-            <LineChart layoutX="3.0" layoutY="18.0" prefHeight="400.0" prefWidth="679.0">
+            <LineChart fx:id="productPriceLineChart" layoutX="3.0" layoutY="18.0" prefHeight="400.0" prefWidth="679.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -96,22 +96,22 @@
         </Pane>
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
           <children>
-            <ImageView fitHeight="110.0" fitWidth="121.0" layoutX="539.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="productImageView" fitHeight="110.0" fitWidth="121.0" layoutX="539.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../../static/dairy-products.png" />
               </image>
             </ImageView>
-            <Label layoutX="42.0" layoutY="64.0" text="Produkt #1">
+            <Label fx:id="productNameLabel" layoutX="42.0" layoutY="64.0" text="Produkt #1">
               <font>
                 <Font size="20.0" />
               </font>
             </Label>
-            <Label layoutX="42.0" layoutY="121.0" text="Link">
+            <Label fx:id="productLinkLabel" layoutX="42.0" layoutY="121.0" text="Link">
               <font>
                 <Font size="20.0" />
               </font>
             </Label>
-            <Label layoutX="42.0" layoutY="185.0" text="Preis">
+            <Label fx:id="productPriceLabel" layoutX="42.0" layoutY="185.0" text="Preis">
               <font>
                 <Font size="20.0" />
               </font>
@@ -131,8 +131,8 @@
       <children>
         <Pane prefHeight="200.0" prefWidth="242.0">
           <children>
-            <ComboBox layoutX="7.0" layoutY="88.0" prefHeight="35.0" prefWidth="228.0" promptText="Bedingung" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" visibleRowCount="4" />
-            <TextField layoutX="7.0" layoutY="143.0" prefHeight="37.0" prefWidth="228.0" promptText="Preis" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+            <ComboBox fx:id="conditionComboBox" layoutX="7.0" layoutY="88.0" prefHeight="35.0" prefWidth="228.0" promptText="Bedingung" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" visibleRowCount="4" />
+            <TextField fx:id="priceTextField" layoutX="7.0" layoutY="143.0" prefHeight="37.0" prefWidth="228.0" promptText="Preis" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
                   <Label layoutX="25.0" layoutY="46.0" text="+ Neuen Alarm einstellen" textFill="#807d7d">
                      <font>
                         <Font size="17.0" />
@@ -147,19 +147,19 @@
                 <Font size="24.0" />
               </font>
             </Label>
-            <Pane layoutX="7.0" layoutY="103.0" prefHeight="200.0" prefWidth="228.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;">
+            <Pane fx:id="priceAlarmPane" layoutX="7.0" layoutY="103.0" prefHeight="200.0" prefWidth="228.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;">
               <children>
-                <Label layoutX="79.0" layoutY="22.0" text="Condition">
+                <Label fx:id="conditionLabel" layoutX="79.0" layoutY="22.0" text="Condition">
                   <font>
                     <Font size="16.0" />
                   </font>
                 </Label>
-                <Label layoutX="122.0" layoutY="113.0" text="Triggered on">
+                <Label fx:id="triggeredOnLabel" layoutX="122.0" layoutY="113.0" text="Triggered on">
                   <font>
                     <Font size="16.0" />
                   </font>
                 </Label>
-                <Label layoutX="26.0" layoutY="113.0" text="Set on">
+                <Label fx:id="setOnLabel" layoutX="26.0" layoutY="113.0" text="Set on">
                   <font>
                     <Font size="16.0" />
                   </font>

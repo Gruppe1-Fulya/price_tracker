@@ -1,10 +1,10 @@
 package com.price_tracker.client.objects;
 
 public class User {
-  String name;
+  public static String name;
   String surname;
-  String email;
-  int id;
+  public static String email;
+  public static int id;
 
   public String getName() {
     return name;
