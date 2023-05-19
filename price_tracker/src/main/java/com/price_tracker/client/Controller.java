@@ -1,53 +1,91 @@
 package com.price_tracker.client;
 
-import com.price_tracker.client.objects.Product;
+import java.net.*;
 import javafx.fxml.FXML;
 import java.io.IOException;
-import javafx.scene.image.Image;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.TextField;
-import java.net.MalformedURLException;
+import javafx.scene.control.*;
+import javafx.scene.chart.LineChart;
+import com.price_tracker.client.objects.User;
+import com.price_tracker.client.objects.Product;
+import com.price_tracker.client.objects.Requests;
 
 public class Controller {
-    @FXML
-    private Button myButton;
+  @FXML
+  private Label welcomeLabel;
+  @FXML
+  private TextField addProductTextField;
+  @FXML
+  private ListView watchlistListView;
+  @FXML
+  private LineChart productPriceLineChart;
+  @FXML
+  private Label productNameLabel;
+  @FXML
+  private Label productLinkLabel;
+  @FXML
+  private Label productPriceLabel;
+  @FXML
+  private ComboBox conditionComboBox;
+  @FXML
+  private TextField priceTextField;
+  @FXML
+  private Label conditionLabel;
+  @FXML
+  private Label setOnLabel;
+  @FXML
+  private Label triggeredOnLabel;
 
-    @FXML
-    private TextField inputField;
 
-    @FXML
-    private ImageView ProductImageView;
+  @FXML
+  private void initialize() {
+    conditionComboBox.getItems().addAll("Beliebige Änderung", "Unter dem Zielwert", "Über dem Zielwert", "Gleich");
+    welcomeLabel.setText("Willkommen, " + User.name);
+  }
 
-    @FXML
-    private Label nameLabel;
+  @FXML
+  private void handleAddProductTextFieldEnter() throws Exception {
+    String text = addProductTextField.getText();
+    addProductTextField.clear();
+    try {
+      Product product = new Product(text);
 
-    @FXML
-    private Label priceLabel;
+      String name = product.getName();
+      String url = product.getUrl();
+      String image = product.getImage();
 
-    @FXML
-    private Label urlLabel;
+      Requests.sendAddProductRequest(User.email, name, url, image);
 
-    @FXML
-    private void handleAddProductButtonClick() throws Exception {
-        String text = inputField.getText();
-        inputField.clear();
-        try {
-            Product product = new Product(text);
-
-            urlLabel.setText(product.getUrl());
-            nameLabel.setText(product.getName());
-            priceLabel.setText(""+product.getPrices().get(product.getPrices().size() - 1));
-
-            ProductImageView.setImage(new Image(product.getImage()));
-            urlLabel.setVisible(true);
-            nameLabel.setVisible(true);
-            priceLabel.setVisible(true);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+      System.out.println(url);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
+
+
+  @FXML
+  public void deleteProduct1() {
+    System.out.println("deleteProduct1");
+  }
+
+  @FXML
+  public void nextButtonClick() {
+    System.out.println("nextButtonClick");
+  }
+
+  @FXML
+  public void handleSetAlarmTextFieldEnter() {
+    System.out.println("handleSetAlarmTextFieldEnter");
+  }
+
+  @FXML
+  public void deleteAlarm() {
+    System.out.println("deleteAlarm");
+  }
+
+  @FXML
+  public void previousButtonClick() {
+    System.out.println("previousButtonClick");
+  }
 }

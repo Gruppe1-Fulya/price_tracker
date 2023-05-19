@@ -70,9 +70,6 @@ public class Product {
     String newUrl = "https://www.amazon.com.tr/dp/" + productId;
     this.url = newUrl;
 
-    double price = Double.parseDouble(doc.select("span.a-price-whole").first().text().replaceAll("[,.]", ""));
-
-    this.prices.add(price);
   }
 
   private void checkHepsiBurada(Document doc) {
@@ -80,8 +77,6 @@ public class Product {
 
     String imageUrl = doc.selectFirst("img.product-image").attr("src");
     this.image = imageUrl;
-    double price = Double.parseDouble(doc.selectFirst("span[data-bind*=currentPriceBeforePoint]").text().replace(".", ""));
-    this.prices.add(price);
   }
 
   private void checkTrendyol() throws Exception {
@@ -90,8 +85,6 @@ public class Product {
 
     this.image = imageUrl;
     this.name = findProductName(html);
-
-    this.prices.add(findPrice(html));
   }
 
   private static String fetchHtml(String url) throws Exception {
@@ -136,27 +129,6 @@ public class Product {
     }
     String productName = html.substring(startIndex + startMarker.length(), endIndex);
     return productName.trim();
-  }
-
-  private static Double findPrice(String html) {
-    String startMarker = "<span class=\"prc-dsc\">";
-    String endMarker = "</span>";
-    int startIndex = html.indexOf(startMarker);
-    if (startIndex < 0) {
-      return null;
-    }
-    int endIndex = html.indexOf(endMarker, startIndex + startMarker.length());
-    if (endIndex < 0) {
-      return null;
-    }
-    String priceString = html.substring(startIndex + startMarker.length(), endIndex);
-    priceString = priceString.trim().replace(",", ".").replace("TL", "");
-    try {
-      Double price = Double.parseDouble(priceString);
-      return price;
-    } catch (NumberFormatException e) {
-      return null;
-    }
   }
 
   private void extractData() throws Exception {

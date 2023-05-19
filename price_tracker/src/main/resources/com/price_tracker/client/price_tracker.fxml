@@ -3,6 +3,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -31,7 +32,7 @@
   <children>
     <Pane prefHeight="200.0" prefWidth="200.0">
       <children>
-        <Label contentDisplay="CENTER" layoutX="14.0" layoutY="11.0" prefHeight="54.0" prefWidth="300.0" text="Willkommen, Kerem" textAlignment="CENTER">
+        <Label fx:id="welcomeLabel" contentDisplay="CENTER" layoutX="14.0" layoutY="11.0" prefHeight="54.0" prefWidth="300.0" text="Willkommen, Kerem" textAlignment="CENTER">
           <font>
             <Font size="24.0" />
           </font>
@@ -58,17 +59,149 @@
       <children>
         <Pane prefHeight="200.0" prefWidth="200.0">
           <children>
-            <TextField layoutX="8.0" layoutY="29.0" prefHeight="37.0" prefWidth="306.0" promptText="+ Produkt mit URL hinzufügen" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+            <TextField fx:id="addProductTextField" layoutX="8.0" layoutY="29.0" onAction="#handleAddProductTextFieldEnter" prefHeight="37.0" prefWidth="306.0" promptText="+ Produkt mit URL hinzufügen" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+                  <Label fx:id="productWarningLabel" layoutX="17.0" layoutY="74.0" prefHeight="15.0" prefWidth="289.0" text="*Nur Produkte von Trendyol, Hepsiburada oder amazon.com.tr" textFill="#b90c0c">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
           </children>
         </Pane>
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
           <children>
-            <ListView layoutX="9.0" layoutY="11.0" prefHeight="603.0" prefWidth="306.0" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+            <ListView fx:id="watchlistListView" layoutX="8.0" layoutY="6.0" prefHeight="603.0" prefWidth="306.0" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
             <Label layoutX="90.0" layoutY="-3.0" text="Ihre Merkliste">
               <font>
                 <Font size="24.0" />
               </font>
             </Label>
+                  <Pane fx:id="productPane1" layoutX="22.0" layoutY="60.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                     <children>
+                        <ImageView fx:id="productSmallImageView1" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/dairy-products.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="productNameLabel1" layoutX="92.0" layoutY="30.0" text="Produkt #1">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="platformLabel1" layoutX="19.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel1" layoutX="186.0" layoutY="30.0" text="Preis">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="preisChangeLabel1" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="deleteProductIcon1" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct1" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/delete_icon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="productPane2" layoutX="22.0" layoutY="190.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                     <children>
+                        <ImageView fx:id="productSmallImageView2" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/dairy-products.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="productNameLabel2" layoutX="92.0" layoutY="30.0" text="Produkt #1">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="platformLabel2" layoutX="19.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel2" layoutX="186.0" layoutY="30.0" text="Preis">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="preisChangeLabel2" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="deleteProductIcon2" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct1" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/delete_icon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="productPane3" layoutX="22.0" layoutY="321.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                     <children>
+                        <ImageView fx:id="productSmallImageView3" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/dairy-products.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="productNameLabel3" layoutX="92.0" layoutY="30.0" text="Produkt #1">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="platformLabel3" layoutX="19.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel3" layoutX="186.0" layoutY="30.0" text="Preis">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="preisChangeLabel3" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="deleteProductIcon3" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct1" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/delete_icon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="productPane4" layoutX="21.0" layoutY="451.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                     <children>
+                        <ImageView fx:id="productSmallImageView4" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/dairy-products.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="productNameLabel4" layoutX="92.0" layoutY="30.0" text="Produkt #1">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="platformLabel4" layoutX="19.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel4" layoutX="186.0" layoutY="30.0" text="Preis">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="preisChangeLabel4" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="deleteProductIcon4" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct1" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/delete_icon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Button fx:id="nextButton" layoutX="250.0" layoutY="575.0" mnemonicParsing="false" onAction="#nextButtonClick" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7;" text="Weiter" />
+                  <Button fx:id="previousButton" layoutX="21.0" layoutY="575.0" mnemonicParsing="false" onAction="#previousButtonClick" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7;" text="Zurück" />
+                  <Label fx:id="emptyWLWarningLabel" layoutX="21.0" layoutY="32.0" prefHeight="15.0" prefWidth="289.0" text="Da Ihre Merkliste leer ist, werden vorgeschlagene Deal-Produkte angezeigt." textFill="#b90c0c">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
           </children>
         </Pane>
       </children>
@@ -84,7 +217,7 @@
       <children>
         <Pane prefHeight="200.0" prefWidth="200.0">
           <children>
-            <LineChart layoutX="3.0" layoutY="18.0" prefHeight="400.0" prefWidth="679.0">
+            <LineChart fx:id="productPriceLineChart" layoutX="3.0" layoutY="18.0" prefHeight="400.0" prefWidth="679.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -96,22 +229,22 @@
         </Pane>
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
           <children>
-            <ImageView fitHeight="110.0" fitWidth="121.0" layoutX="539.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="productImageView" fitHeight="110.0" fitWidth="121.0" layoutX="539.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../../static/dairy-products.png" />
               </image>
             </ImageView>
-            <Label layoutX="42.0" layoutY="64.0" text="Produkt #1">
+            <Label fx:id="productNameLabel" layoutX="42.0" layoutY="64.0" text="Produkt #1">
               <font>
                 <Font size="20.0" />
               </font>
             </Label>
-            <Label layoutX="42.0" layoutY="121.0" text="Link">
+            <Label fx:id="productLinkLabel" layoutX="42.0" layoutY="121.0" text="Link">
               <font>
                 <Font size="20.0" />
               </font>
             </Label>
-            <Label layoutX="42.0" layoutY="185.0" text="Preis">
+            <Label fx:id="productPriceLabel" layoutX="42.0" layoutY="185.0" text="Preis">
               <font>
                 <Font size="20.0" />
               </font>
@@ -131,13 +264,13 @@
       <children>
         <Pane prefHeight="200.0" prefWidth="242.0">
           <children>
-            <ComboBox layoutX="7.0" layoutY="88.0" prefHeight="35.0" prefWidth="228.0" promptText="Bedingung" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" visibleRowCount="4" />
-            <TextField layoutX="7.0" layoutY="143.0" prefHeight="37.0" prefWidth="228.0" promptText="Preis" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
-                  <Label layoutX="25.0" layoutY="46.0" text="+ Neuen Alarm einstellen" textFill="#807d7d">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
+            <ComboBox fx:id="conditionComboBox" layoutX="7.0" layoutY="88.0" prefHeight="35.0" prefWidth="228.0" promptText="Bedingung" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" visibleRowCount="4" />
+            <TextField fx:id="priceTextField" layoutX="7.0" layoutY="143.0" onAction="#handleSetAlarmTextFieldEnter" prefHeight="37.0" prefWidth="228.0" promptText="Preis" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
+            <Label layoutX="25.0" layoutY="46.0" text="+ Neuen Alarm einstellen" textFill="#807d7d">
+              <font>
+                <Font size="17.0" />
+              </font>
+            </Label>
           </children>
         </Pane>
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -147,23 +280,28 @@
                 <Font size="24.0" />
               </font>
             </Label>
-            <Pane layoutX="7.0" layoutY="103.0" prefHeight="200.0" prefWidth="228.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;">
+            <Pane fx:id="priceAlarmPane" layoutX="7.0" layoutY="103.0" prefHeight="200.0" prefWidth="228.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;">
               <children>
-                <Label layoutX="79.0" layoutY="22.0" text="Condition">
+                <Label fx:id="conditionLabel" layoutX="79.0" layoutY="22.0" text="Condition">
                   <font>
                     <Font size="16.0" />
                   </font>
                 </Label>
-                <Label layoutX="122.0" layoutY="113.0" text="Triggered on">
+                <Label fx:id="triggeredOnLabel" layoutX="122.0" layoutY="88.0" text="Triggered on">
                   <font>
                     <Font size="16.0" />
                   </font>
                 </Label>
-                <Label layoutX="26.0" layoutY="113.0" text="Set on">
+                <Label fx:id="setOnLabel" layoutX="21.0" layoutY="88.0" text="Set on">
                   <font>
                     <Font size="16.0" />
                   </font>
                 </Label>
+                        <ImageView fx:id="deleteAlarmIcon" fitHeight="17.0" fitWidth="18.0" layoutX="105.0" layoutY="167.0" onMouseClicked="#deleteAlarm" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../static/delete_icon.png" />
+                           </image>
+                        </ImageView>
               </children>
             </Pane>
           </children>

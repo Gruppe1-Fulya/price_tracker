@@ -2,6 +2,8 @@ module com.price_tracker.client {
     requires javafx.controls;
     requires javafx.fxml;
   requires org.jsoup;
+  requires spring.web;
+  requires spring.core;
 
 
   opens com.price_tracker.client to javafx.fxml;
