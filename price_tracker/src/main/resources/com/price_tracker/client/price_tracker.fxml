@@ -60,7 +60,7 @@
         <Pane prefHeight="200.0" prefWidth="200.0">
           <children>
             <TextField fx:id="addProductTextField" layoutX="8.0" layoutY="29.0" onAction="#handleAddProductTextFieldEnter" prefHeight="37.0" prefWidth="306.0" promptText="+ Produkt mit URL hinzufügen" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
-                  <Label fx:id="productWarningLabel" layoutX="17.0" layoutY="74.0" prefHeight="15.0" prefWidth="289.0" text="*Nur Produkte von Trendyol, Hepsiburada oder amazon.com.tr" textFill="#b90c0c">
+                  <Label fx:id="productWarningLabel" layoutX="17.0" layoutY="74.0" prefHeight="15.0" prefWidth="289.0" text="*Nur Produkte von Trendyol, Hepsiburada oder amazon.com.tr" textFill="#b90c0c" visible="false">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -70,7 +70,7 @@
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
           <children>
             <ListView fx:id="watchlistListView" layoutX="8.0" layoutY="6.0" prefHeight="603.0" prefWidth="306.0" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;" />
-            <Label layoutX="90.0" layoutY="-3.0" text="Ihre Merkliste">
+            <Label fx:id="watchListLabel" layoutX="90.0" layoutY="-3.0" text="Ihre Merkliste">
               <font>
                 <Font size="24.0" />
               </font>
@@ -87,13 +87,13 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="platformLabel1" layoutX="19.0" layoutY="85.0" text="Trendyol" />
-                        <Label fx:id="productWLPriceLabel1" layoutX="186.0" layoutY="30.0" text="Preis">
+                        <Label fx:id="platformLabel1" layoutX="16.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel1" layoutX="92.0" layoutY="55.0" text="Preis">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel1" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel1" layoutX="131.0" layoutY="60.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -117,13 +117,13 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="platformLabel2" layoutX="19.0" layoutY="85.0" text="Trendyol" />
-                        <Label fx:id="productWLPriceLabel2" layoutX="186.0" layoutY="30.0" text="Preis">
+                        <Label fx:id="platformLabel2" layoutX="16.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel2" layoutX="92.0" layoutY="51.0" text="Preis">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel2" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel2" layoutX="131.0" layoutY="56.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -147,13 +147,13 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="platformLabel3" layoutX="19.0" layoutY="85.0" text="Trendyol" />
-                        <Label fx:id="productWLPriceLabel3" layoutX="186.0" layoutY="30.0" text="Preis">
+                        <Label fx:id="platformLabel3" layoutX="16.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel3" layoutX="92.0" layoutY="51.0" text="Preis">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel3" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel3" layoutX="131.0" layoutY="56.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -177,13 +177,13 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="platformLabel4" layoutX="19.0" layoutY="85.0" text="Trendyol" />
-                        <Label fx:id="productWLPriceLabel4" layoutX="186.0" layoutY="30.0" text="Preis">
+                        <Label fx:id="platformLabel4" layoutX="16.0" layoutY="85.0" text="Trendyol" />
+                        <Label fx:id="productWLPriceLabel4" layoutX="92.0" layoutY="51.0" text="Preis">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel4" layoutX="226.0" layoutY="36.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel4" layoutX="131.0" layoutY="56.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -196,10 +196,15 @@
                      </children>
                   </Pane>
                   <Button fx:id="nextButton" layoutX="250.0" layoutY="575.0" mnemonicParsing="false" onAction="#nextButtonClick" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7;" text="Weiter" />
-                  <Button fx:id="previousButton" layoutX="21.0" layoutY="575.0" mnemonicParsing="false" onAction="#previousButtonClick" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7;" text="Zurück" />
-                  <Label fx:id="emptyWLWarningLabel" layoutX="21.0" layoutY="32.0" prefHeight="15.0" prefWidth="289.0" text="Da Ihre Merkliste leer ist, werden vorgeschlagene Deal-Produkte angezeigt." textFill="#b90c0c">
+                  <Button fx:id="previousButton" layoutX="21.0" layoutY="575.0" mnemonicParsing="false" onAction="#previousButtonClick" style="-fx-background-color: #F1F1F1; -fx-border-color: black; -fx-border-radius: 7;" text="Zurück" visible="false" />
+                  <Label fx:id="emptyWLWarningLabel" layoutX="21.0" layoutY="32.0" prefHeight="15.0" prefWidth="289.0" text="Da Ihre Merkliste leer ist, werden vorgeschlagene Deal-Produkte angezeigt." textFill="#b90c0c" visible="false">
                      <font>
                         <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="watchListLabel1" layoutX="51.0" layoutY="-3.0" text="Empfohlene Produkte" visible="false">
+                     <font>
+                        <Font size="24.0" />
                      </font>
                   </Label>
           </children>

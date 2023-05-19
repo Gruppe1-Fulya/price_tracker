@@ -30,8 +30,10 @@ public class WatchlistController {
   }
 
   @GetMapping("/load/{user_id}")
-  public ResponseEntity<List<Watchlist>> getWatchlistsForUser(@PathVariable("user_id") int userId) {
-    return ResponseEntity.status(HttpStatus.FOUND).body(watchlistService.getWatchlistsForUser(userId));
+  public ResponseEntity<?> getWatchlistsForUser(@PathVariable("user_id") int userId) {
+    List<Watchlist> watchlist = watchlistService.getWatchlistsForUser(userId);
+    if (watchlist.isEmpty()) return ResponseEntity.notFound().build();
+    return ResponseEntity.status(HttpStatus.FOUND).body(watchlist);
   }
 
   @PostMapping("/add-product")

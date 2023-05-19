@@ -15,11 +15,18 @@ public class Product {
   private String name;
   private String image;
   private ArrayList<Double> prices;
+  private int alarm_id = -1;
 
   public Product(String url) throws Exception {
     this.url = url;
     this.prices = new ArrayList<>();
     extractData();
+  }
+
+  public Product(String url, String name, String image) {
+    this.url = url;
+    this.name = name;
+    this.image = image;
   }
 
   public String getUrl() {
@@ -52,6 +59,14 @@ public class Product {
 
   public void setPrices(ArrayList<Double> prices) {
     this.prices = prices;
+  }
+
+  public int getAlarm_id() {
+    return alarm_id;
+  }
+
+  public void setAlarm_id(int alarm_id) {
+    this.alarm_id = alarm_id;
   }
 
   public void addPrice(double price) {

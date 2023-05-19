@@ -101,4 +101,29 @@ public class Requests {
     System.out.println("Status code: " + response.getStatusCode());
     System.out.println("Response body: " + response.getBody());
   }
+
+  public static String sendLoadWLRequest(int id) {
+    try {
+      URL url = new URL("http://localhost:8080/watchlists/load/" + id);
+      HttpURLConnection con = (HttpURLConnection) url.openConnection();
+      con.setRequestMethod("GET");
+
+      int status = con.getResponseCode();
+      System.out.println("Response status: " + status);
+      if (status == 404) return "empty";
+
+      BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+      String inputLine;
+      StringBuilder response = new StringBuilder();
+      while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+      }
+      in.close();
+
+      return response.toString();
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
 }
