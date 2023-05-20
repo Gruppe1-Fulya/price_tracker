@@ -1,11 +1,11 @@
 package com.price_tracker.server.service;
 
 import com.price_tracker.server.entity.User;
+import org.springframework.stereotype.Service;
 import com.price_tracker.server.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 @Transactional

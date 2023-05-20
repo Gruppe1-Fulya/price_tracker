@@ -1,21 +1,20 @@
 package com.price_tracker.client.objects;
 
-import java.io.IOException;
-
+import java.io.*;
 import java.net.URL;
 import org.jsoup.Jsoup;
 import java.util.ArrayList;
-import java.io.BufferedReader;
 import org.jsoup.nodes.Document;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
 public class Product {
+  private int id;
   private String url;
   private String name;
   private String image;
   private ArrayList<Double> prices;
   private int alarm_id = -1;
+  private int watchlist_id;
 
   public Product(String url) throws Exception {
     this.url = url;
@@ -23,10 +22,13 @@ public class Product {
     extractData();
   }
 
-  public Product(String url, String name, String image) {
+  public Product(int id, String url, String name, String image, int watchlist_id) {
+    this.id = id;
     this.url = url;
     this.name = name;
     this.image = image;
+    this.watchlist_id = watchlist_id;
+    this.prices = new ArrayList<Double>();
   }
 
   public String getUrl() {
@@ -35,6 +37,14 @@ public class Product {
 
   public void setUrl(String url) {
     this.url = url;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getName() {
@@ -73,9 +83,32 @@ public class Product {
     this.prices.add(price);
   }
 
+  public int getWatchlist_id() {
+    return watchlist_id;
+  }
+
+  public void setWatchlist_id(int watchlist_id) {
+    this.watchlist_id = watchlist_id;
+  }
+
+  public double getLastPrice() {
+    if (this.getPrices().isEmpty() == false) {
+      return this.getPrices().get(this.getPrices().size()-1);
+    } else {
+      return 0.0;
+    }
+  }
+
+  public double getSecondPrice() {
+    if (this.getPrices().size() >= 2) {
+      return this.getPrices().get(this.getPrices().size()-2);
+    } else {
+      return 0.0;
+    }
+  }
+
   private void checkAmazon(Document doc) {
     this.name = doc.select("span#productTitle").first().text();
-
     String imageUrl = doc.select("img[data-old-hires]").first().attr("src");
     this.image = imageUrl;
 
@@ -84,7 +117,6 @@ public class Product {
 
     String newUrl = "https://www.amazon.com.tr/dp/" + productId;
     this.url = newUrl;
-
   }
 
   private void checkHepsiBurada(Document doc) {

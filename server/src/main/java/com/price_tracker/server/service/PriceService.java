@@ -1,23 +1,19 @@
 package com.price_tracker.server.service;
 
-import com.price_tracker.server.repository.ProductRepo;
-import org.jsoup.Jsoup;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.io.*;
 import java.net.URL;
+import java.util.List;
+import org.jsoup.Jsoup;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.jsoup.nodes.Document;
+import java.net.HttpURLConnection;
 import com.price_tracker.server.entity.Price;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import com.price_tracker.server.entity.Product;
 import com.price_tracker.server.repository.PriceRepo;
+import com.price_tracker.server.repository.ProductRepo;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -43,8 +39,8 @@ public class PriceService {
     String url = product.getUrl();
 
     if (url.contains("amazon.com.tr")) {
-      Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148").get();
-      return checkAmazon(doc);
+      String code = url.split("dp/")[1];
+      return checkAmazon("https://www.amazon.com.tr/s?k=" + code);
     } else if (url.contains("hepsiburada.com")) {
       Document doc = Jsoup.connect(url).get();
       return checkHepsiBurada(doc);
@@ -54,8 +50,30 @@ public class PriceService {
     return 0.0;
   }
 
-  private double checkAmazon(Document doc) {
-    return Double.parseDouble(doc.select("span.a-price-whole").first().text().replaceAll("[,.]", ""));
+  private double checkAmazon(String url) {
+    try {
+      URL amazonUrl = new URL(url);
+      BufferedReader in = new BufferedReader(new InputStreamReader(amazonUrl.openStream()));
+
+      String line;
+      while ((line = in.readLine()) != null) {
+        int start = line.indexOf("<span class=\"a-price-whole\">");
+        if (start != -1) {
+          int end = line.indexOf("<", start + 1);
+          if (end != -1) {
+            String priceString = line.substring(start + "<span class=\"a-price-whole\">".length(), end);
+            double price = Double.parseDouble(priceString.replace(".",""));
+            return price;
+          }
+        }
+      }
+
+      in.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return -1.0; // price not found
   }
 
   private double checkHepsiBurada(Document doc) {

@@ -1,15 +1,13 @@
 package com.price_tracker.server.controller;
 
-import com.price_tracker.server.entity.Price;
-import com.price_tracker.server.service.PriceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.io.IOException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import com.price_tracker.server.entity.Price;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
+import com.price_tracker.server.service.PriceService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/price")

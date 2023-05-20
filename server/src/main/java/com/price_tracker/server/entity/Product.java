@@ -1,10 +1,9 @@
 package com.price_tracker.server.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "product")

@@ -5,6 +5,7 @@ module com.price_tracker.client {
   requires spring.web;
   requires spring.core;
   requires com.fasterxml.jackson.databind;
+  requires java.desktop;
 
 
   opens com.price_tracker.client to javafx.fxml;

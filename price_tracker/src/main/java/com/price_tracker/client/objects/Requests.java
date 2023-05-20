@@ -1,19 +1,16 @@
 package com.price_tracker.client.objects;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
+import java.net.URI;
 import java.net.URL;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import org.springframework.http.*;
 import java.net.HttpURLConnection;
+import java.io.OutputStreamWriter;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 public class Requests {
   public static String sendLoginRequest(String url, String requestBody) throws IOException {
@@ -97,9 +94,6 @@ public class Requests {
 
     HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
     ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/watchlists/add-product", request, String.class);
-
-    System.out.println("Status code: " + response.getStatusCode());
-    System.out.println("Response body: " + response.getBody());
   }
 
   public static String sendLoadWLRequest(int id) {
@@ -109,7 +103,6 @@ public class Requests {
       con.setRequestMethod("GET");
 
       int status = con.getResponseCode();
-      System.out.println("Response status: " + status);
       if (status == 404) return "empty";
 
       BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -125,5 +118,24 @@ public class Requests {
       e.printStackTrace();
       return null;
     }
+  }
+
+  public static void sendDeleteProductRequest(int wid) {
+    String url = "http://localhost:8080/watchlists/remove/" + wid;
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, null, String.class);
+  }
+
+  public static String sendLoadPricesRequest(int id) {
+    RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Content-Type", "application/json");
+    URI url = URI.create("http://localhost:8080/price/price-list/" + id);
+    HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+    String response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class).getBody();
+    if (response.equals("[]")) {
+      return "empty";
+    }
+    return response;
   }
 }

@@ -1,17 +1,17 @@
 package com.price_tracker.server.controller;
 
 import java.util.List;
-import com.price_tracker.server.entity.Alarm;
-import com.price_tracker.server.entity.Product;
+import org.springframework.http.HttpStatus;
 import com.price_tracker.server.entity.User;
+import com.price_tracker.server.entity.Alarm;
+import org.springframework.http.ResponseEntity;
+import com.price_tracker.server.entity.Product;
+import org.springframework.web.bind.annotation.*;
 import com.price_tracker.server.entity.Watchlist;
-import com.price_tracker.server.service.ProductService;
 import com.price_tracker.server.service.UserService;
+import com.price_tracker.server.service.ProductService;
 import com.price_tracker.server.service.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/watchlists")

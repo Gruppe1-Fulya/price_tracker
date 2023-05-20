@@ -75,7 +75,7 @@
                 <Font size="24.0" />
               </font>
             </Label>
-                  <Pane fx:id="productPane1" layoutX="22.0" layoutY="60.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                  <Pane fx:id="productPane1" layoutX="22.0" layoutY="60.0" onMouseClicked="#productPaneClick1" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
                      <children>
                         <ImageView fx:id="productSmallImageView1" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -93,7 +93,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel1" layoutX="131.0" layoutY="60.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel1" layoutX="163.0" layoutY="60.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -105,7 +105,7 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <Pane fx:id="productPane2" layoutX="22.0" layoutY="190.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                  <Pane fx:id="productPane2" layoutX="22.0" layoutY="190.0" onMouseClicked="#productPaneClick2" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
                      <children>
                         <ImageView fx:id="productSmallImageView2" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -123,19 +123,19 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel2" layoutX="131.0" layoutY="56.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel2" layoutX="162.0" layoutY="56.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="deleteProductIcon2" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct1" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="deleteProductIcon2" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct2" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../static/delete_icon.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Pane>
-                  <Pane fx:id="productPane3" layoutX="22.0" layoutY="321.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                  <Pane fx:id="productPane3" layoutX="22.0" layoutY="321.0" onMouseClicked="#productPaneClick3" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
                      <children>
                         <ImageView fx:id="productSmallImageView3" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -153,19 +153,19 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel3" layoutX="131.0" layoutY="56.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel3" layoutX="164.0" layoutY="56.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="deleteProductIcon3" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct1" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="deleteProductIcon3" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct3" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../static/delete_icon.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Pane>
-                  <Pane fx:id="productPane4" layoutX="21.0" layoutY="451.0" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
+                  <Pane fx:id="productPane4" layoutX="21.0" layoutY="451.0" onMouseClicked="#productPaneClick4" prefHeight="110.0" prefWidth="281.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;">
                      <children>
                         <ImageView fx:id="productSmallImageView4" fitHeight="61.0" fitWidth="61.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -183,12 +183,12 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="preisChangeLabel4" layoutX="131.0" layoutY="56.0" text="\% 4,22 ▼">
+                        <Label fx:id="preisChangeLabel4" layoutX="164.0" layoutY="56.0" text="\% 4,22 ▼">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="deleteProductIcon4" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct1" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="deleteProductIcon4" fitHeight="17.0" fitWidth="18.0" layoutX="257.0" layoutY="84.0" onMouseClicked="#deleteProduct4" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../static/delete_icon.png" />
                            </image>
@@ -234,26 +234,36 @@
         </Pane>
         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
           <children>
-            <ImageView fx:id="productImageView" fitHeight="110.0" fitWidth="121.0" layoutX="539.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="productImageView" fitHeight="127.0" fitWidth="127.0" layoutX="539.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../../static/dairy-products.png" />
               </image>
             </ImageView>
-            <Label fx:id="productNameLabel" layoutX="42.0" layoutY="64.0" text="Produkt #1">
+            <Label fx:id="productNameLabel" layoutX="33.0" layoutY="67.0" text="Produkt #1">
               <font>
-                <Font size="20.0" />
+                <Font size="18.0" />
               </font>
             </Label>
-            <Label fx:id="productLinkLabel" layoutX="42.0" layoutY="121.0" text="Link">
+            <Label fx:id="productLinkLabel" layoutX="65.0" layoutY="191.0" text="Link">
               <font>
-                <Font size="20.0" />
+                <Font size="16.0" />
               </font>
             </Label>
-            <Label fx:id="productPriceLabel" layoutX="42.0" layoutY="185.0" text="Preis">
+            <Label fx:id="productPriceLabel" layoutX="33.0" layoutY="126.0" text="Preis">
               <font>
-                <Font size="20.0" />
+                <Font size="18.0" />
               </font>
             </Label>
+                  <ImageView fx:id="openBrowserImageView" fitHeight="25.0" fitWidth="28.0" layoutX="33.0" layoutY="191.0" onMouseClicked="#openBrowserClicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../static/open-icon.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="detailsLabel" layoutX="33.0" layoutY="14.0" text="Produktdetails">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
           </children>
         </Pane>
       </children>
