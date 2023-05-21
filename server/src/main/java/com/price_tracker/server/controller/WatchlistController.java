@@ -64,10 +64,11 @@ public class WatchlistController {
   }
 
   @PostMapping("/set-alarm")
-  public ResponseEntity<?> setAlarm(@RequestBody Alarm alarm) {
+  public ResponseEntity<Integer> setAlarm(@RequestBody Alarm alarm) {
     int id = alarm.getWatchlist_id();
-    watchlistService.setAlarm(watchlistService.findById(id), alarm);
-    return ResponseEntity.status(HttpStatus.OK).body("Alarm set!");
+    Watchlist wl = watchlistService.findById(id);
+    watchlistService.setAlarm(wl, alarm);
+    return ResponseEntity.status(HttpStatus.OK).body(wl.getAlarm().getId());
   }
 
   @PostMapping("/remove-alarm/{watchlist_id}")

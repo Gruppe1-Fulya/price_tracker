@@ -1,7 +1,7 @@
 package com.price_tracker.client;
 
 import java.net.*;
-import java.util.Collections;
+import java.time.LocalDate;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.awt.Desktop;
@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.chart.LineChart;
 import com.price_tracker.client.objects.User;
+import com.price_tracker.client.objects.Alarm;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.price_tracker.client.objects.Product;
 import com.price_tracker.client.objects.Requests;
@@ -108,11 +109,14 @@ public class Controller {
   private Label preisChangeLabel3;
   @FXML
   private Label preisChangeLabel4;
-
+  @FXML
+  private Pane priceAlarmPane;
 
   private int currentPage = 0;
   private int lastPage = 0;
   private String activeURL;
+  private Product activeProduct;
+  private int activePane;
 
   private List<Product> watchList = new ArrayList<>();
 
@@ -162,7 +166,6 @@ public class Controller {
 
     int lastPageTemp = lastPage;
     initialize();
-    if (lastPageTemp < checkLastPage()) nextButtonClick();
   }
 
   @FXML
@@ -170,8 +173,9 @@ public class Controller {
     int watchlistId = watchList.get(((currentPage) * 4)).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
-    initialize();
+    watchList.remove(watchList.get(((currentPage) * 4)));
     if (lastPageTemp > checkLastPage() && currentPage != 0) previousButtonClick();
+    initialize();
   }
 
   @FXML
@@ -179,8 +183,9 @@ public class Controller {
     int watchlistId = watchList.get(((currentPage) * 4) + 1).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
-    initialize();
+    watchList.remove(watchList.get(((currentPage) * 4) + 1));
     if (lastPageTemp > checkLastPage() && currentPage != 0) previousButtonClick();
+    initialize();
   }
 
   @FXML
@@ -188,8 +193,9 @@ public class Controller {
     int watchlistId = watchList.get(((currentPage) * 4) + 2).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
-    initialize();
+    watchList.remove(watchList.get(((currentPage) * 4) + 2));
     if (lastPageTemp > checkLastPage() && currentPage != 0) previousButtonClick();
+    initialize();
   }
 
   @FXML
@@ -197,116 +203,209 @@ public class Controller {
     int watchlistId = watchList.get(((currentPage) * 4) + 3).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
-    initialize();
+    watchList.remove(watchList.get(((currentPage) * 4) + 3));
     if (lastPageTemp > checkLastPage() && currentPage != 0) previousButtonClick();
+    initialize();
   }
 
   @FXML
-  public void productPaneClick1() {
-    productPane1.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    Product product = watchList.get(((currentPage) * 4));
-    Image productImage = new Image(product.getImage());
-    productImageView.setImage(productImage);
-    String name = product.getName();
-    String url = product.getUrl();
-    activeURL = url;
-    String price = Double.toString(product.getLastPrice());
-    productPriceLabel.setText(price + "₺");
+  public void productPaneClick1() throws JsonProcessingException {
+    if (watchList.size() != currentPage * 4) {
+      productPane1.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      Product product = watchList.get(((currentPage) * 4));
+      activeProduct = product;
+      Image productImage = new Image(product.getImage());
+      productImageView.setImage(productImage);
+      String name = product.getName();
+      String url = product.getUrl();
+      activeURL = url;
+      String price = Double.toString(product.getLastPrice());
+      productPriceLabel.setText(price + "₺");
 
-    if (url.length() > 53) {
-      url = url.substring(0, 50) + "...";
+      if (product.getAlarm_id() != -1) {
+        priceAlarmPane.setVisible(true);
+        String json = Requests.sendLoadAlarmRequest(product.getAlarm_id());
+        Alarm alarm = loadAlarm(json);
+        conditionLabel.setText(createConditionSentence(alarm.getCondition(), alarm.getTargetPrice()));
+        setOnLabel.setText(alarm.getDateCreated());
+        if (alarm.getDateTriggered() != null) {
+          triggeredOnLabel.setText(alarm.getDateTriggered());
+        } else {
+          triggeredOnLabel.setText("-");
+        }
+      } else {
+        priceAlarmPane.setVisible(false);
+      }
+
+      if (url.length() > 53) {
+        url = url.substring(0, 50) + "...";
+      }
+
+      if (name.length() > 53) {
+        name = name.substring(0, 50) + "...";
+      }
+
+      productLinkLabel.setText(url);
+      productNameLabel.setText(toTitleCase(name));
+
+      activePane = 1;
     }
-
-    if (name.length() > 53) {
-      name = name.substring(0, 50) + "...";
-    }
-
-    productLinkLabel.setText(url);
-    productNameLabel.setText(toTitleCase(name));
   }
 
   @FXML
-  public void productPaneClick2() {
-    productPane1.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane2.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    Product product = watchList.get(((currentPage) * 4) + 1);
-    Image productImage = new Image(product.getImage());
-    productImageView.setImage(productImage);
-    String name = product.getName();
-    String url = product.getUrl();
-    activeURL = url;
-    String price = Double.toString(product.getLastPrice());
-    productPriceLabel.setText(price + "₺");
+  public void productPaneClick2() throws JsonProcessingException {
+    if (watchList.size() != (currentPage * 4) + 1) {
+      productPane1.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane2.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      Product product = watchList.get(((currentPage) * 4) + 1);
+      activeProduct = product;
+      Image productImage = new Image(product.getImage());
+      productImageView.setImage(productImage);
+      String name = product.getName();
+      String url = product.getUrl();
+      activeURL = url;
+      String price = Double.toString(product.getLastPrice());
+      productPriceLabel.setText(price + "₺");
 
-    if (url.length() > 53) {
-      url = url.substring(0, 50) + "...";
+      if (product.getAlarm_id() != -1) {
+        priceAlarmPane.setVisible(true);
+        String json = Requests.sendLoadAlarmRequest(product.getAlarm_id());
+        Alarm alarm = loadAlarm(json);
+        conditionLabel.setText(createConditionSentence(alarm.getCondition(), alarm.getTargetPrice()));
+        setOnLabel.setText(alarm.getDateCreated());
+        if (alarm.getDateTriggered() != null) {
+          triggeredOnLabel.setText(alarm.getDateTriggered());
+        } else {
+          triggeredOnLabel.setText("-");
+        }
+      } else {
+        priceAlarmPane.setVisible(false);
+      }
+
+      if (url.length() > 53) {
+        url = url.substring(0, 50) + "...";
+      }
+
+      if (name.length() > 53) {
+        name = name.substring(0, 50) + "...";
+      }
+
+      productLinkLabel.setText(url);
+      productNameLabel.setText(toTitleCase(name));
+
+      activePane = 2;
     }
-
-    if (name.length() > 53) {
-      name = name.substring(0, 50) + "...";
-    }
-
-    productLinkLabel.setText(url);
-    productNameLabel.setText(toTitleCase(name));
   }
 
   @FXML
-  public void productPaneClick3() {
-    productPane1.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane3.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    Product product = watchList.get(((currentPage) * 4) + 2);
-    Image productImage = new Image(product.getImage());
-    productImageView.setImage(productImage);
-    String name = product.getName();
-    String url = product.getUrl();
-    activeURL = url;
-    String price = Double.toString(product.getLastPrice());
-    productPriceLabel.setText(price + "₺");
+  public void productPaneClick3() throws JsonProcessingException {
+    if (watchList.size() != (currentPage * 4) + 2) {
+      productPane1.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane3.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      Product product = watchList.get(((currentPage) * 4) + 2);
+      activeProduct = product;
+      Image productImage = new Image(product.getImage());
+      productImageView.setImage(productImage);
+      String name = product.getName();
+      String url = product.getUrl();
+      activeURL = url;
+      String price = Double.toString(product.getLastPrice());
+      productPriceLabel.setText(price + "₺");
 
-    if (url.length() > 53) {
-      url = url.substring(0, 50) + "...";
+      if (product.getAlarm_id() != -1) {
+        priceAlarmPane.setVisible(true);
+        String json = Requests.sendLoadAlarmRequest(product.getAlarm_id());
+        Alarm alarm = loadAlarm(json);
+        conditionLabel.setText(createConditionSentence(alarm.getCondition(), alarm.getTargetPrice()));
+        setOnLabel.setText(alarm.getDateCreated());
+        if (alarm.getDateTriggered() != null) {
+          triggeredOnLabel.setText(alarm.getDateTriggered());
+        } else {
+          triggeredOnLabel.setText("-");
+        }
+      } else {
+        priceAlarmPane.setVisible(false);
+      }
+
+      if (url.length() > 53) {
+        url = url.substring(0, 50) + "...";
+      }
+
+      if (name.length() > 53) {
+        name = name.substring(0, 50) + "...";
+      }
+
+      productLinkLabel.setText(url);
+      productNameLabel.setText(toTitleCase(name));
+
+      activePane = 3;
     }
-
-    if (name.length() > 53) {
-      name = name.substring(0, 50) + "...";
-    }
-
-    productLinkLabel.setText(url);
-    productNameLabel.setText(toTitleCase(name));
   }
 
   @FXML
-  public void productPaneClick4() {
-    productPane1.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    productPane4.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-    Product product = watchList.get(((currentPage) * 4) + 3);
-    Image productImage = new Image(product.getImage());
-    productImageView.setImage(productImage);
-    String name = product.getName();
-    String url = product.getUrl();
-    activeURL = url;
-    String price = Double.toString(product.getLastPrice());
-    productPriceLabel.setText(price + "₺");
+  public void productPaneClick4() throws JsonProcessingException {
+    if (watchList.size() != (currentPage * 4) + 3) {
+      productPane1.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      productPane4.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
+      Product product = watchList.get(((currentPage) * 4) + 3);
+      activeProduct = product;
+      Image productImage = new Image(product.getImage());
+      productImageView.setImage(productImage);
+      String name = product.getName();
+      String url = product.getUrl();
+      activeURL = url;
+      String price = Double.toString(product.getLastPrice());
+      productPriceLabel.setText(price + "₺");
 
-    if (url.length() > 53) {
-      url = url.substring(0, 50) + "...";
+      if (product.getAlarm_id() != -1) {
+        priceAlarmPane.setVisible(true);
+        String json = Requests.sendLoadAlarmRequest(product.getAlarm_id());
+        Alarm alarm = loadAlarm(json);
+        conditionLabel.setText(createConditionSentence(alarm.getCondition(), alarm.getTargetPrice()));
+        setOnLabel.setText(alarm.getDateCreated());
+        if (alarm.getDateTriggered() != null) {
+          triggeredOnLabel.setText(alarm.getDateTriggered());
+        } else {
+          triggeredOnLabel.setText("-");
+        }
+      } else {
+        priceAlarmPane.setVisible(false);
+      }
+
+      if (url.length() > 53) {
+        url = url.substring(0, 50) + "...";
+      }
+
+      if (name.length() > 53) {
+        name = name.substring(0, 50) + "...";
+      }
+
+      productLinkLabel.setText(url);
+      productNameLabel.setText(toTitleCase(name));
+
+      activePane = 4;
     }
+  }
 
-    if (name.length() > 53) {
-      name = name.substring(0, 50) + "...";
-    }
+  private Alarm loadAlarm(String json) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    Alarm alarm = mapper.readValue(json, Alarm.class);
 
-    productLinkLabel.setText(url);
-    productNameLabel.setText(toTitleCase(name));
+    String condition = alarm.getCondition();
+    Double targetPrice = alarm.getTargetPrice();
+    String dateCreated = alarm.getDateCreated();
+    String dateTriggered = alarm.getDateTriggered();
+
+    return alarm;
   }
 
   @FXML
@@ -330,10 +429,9 @@ public class Controller {
       previousButton.setVisible(false);
     }
 
-    if (currentPage == lastPage) {
+    if (currentPage >= lastPage) {
       nextButton.setVisible(false);
     }
-
     showProducts();
   }
 
@@ -350,18 +448,51 @@ public class Controller {
     } else {
       nextButton.setVisible(true);
     }
-
     showProducts();
   }
 
-  @FXML
-  public void handleSetAlarmTextFieldEnter() {
-    System.out.println("handleSetAlarmTextFieldEnter");
+  public String createConditionSentence(String cond, double target) {
+    if (cond.equals("ANY_CHANGE")) return "Falls sich etwas ändert";
+    if (cond.equals("BELOW_TARGET")) return "Wenn der Preis unter " + target + " ₺ fällt";
+    if (cond.equals("ABOVE_TARGET")) return "Wenn der Preis über " + target + " ₺ liegt";
+    if (cond.equals("EQUALS_TARGET")) return "Wenn der Preis " + target + " ₺ beträgt";
+    return "";
   }
 
   @FXML
-  public void deleteAlarm() {
-    System.out.println("deleteAlarm");
+  public void handleSetAlarmTextFieldEnter() throws JsonProcessingException {
+    String condition;
+    if (conditionComboBox.getValue() == "Beliebige Änderung") {
+      condition = "ANY_CHANGE";
+    } else if (conditionComboBox.getValue() == "Unter dem Zielwert") {
+      condition = "BELOW_TARGET";
+    } else if (conditionComboBox.getValue() == "Über dem Zielwert") {
+      condition = "ABOVE_TARGET";
+    } else {
+      condition = "EQUALS_TARGET";
+    }
+    int alarmId = Integer.parseInt(Requests.sendSetAlarmRequest(activeProduct.getId(), activeProduct.getWatchlist_id(), LocalDate.now().toString(), condition, Double.parseDouble(priceTextField.getText())));
+    priceTextField.clear();
+    activeProduct.setAlarm_id(alarmId);
+
+    if (activePane == 1) {
+      productPaneClick1();
+    } else if (activePane == 2) {
+      productPaneClick2();
+    } else if (activePane == 3) {
+      productPaneClick3();
+    } else if (activePane == 4) {
+      productPaneClick4();
+    }
+  }
+
+  @FXML
+  public void deleteAlarm() throws JsonProcessingException {
+    String response = Requests.sendRemoveAlarmRequest(activeProduct.getWatchlist_id());
+    if (response.equals("Alarm deleted!")) {
+      activeProduct.setAlarm_id(-1);
+      priceAlarmPane.setVisible(false);
+    }
   }
 
   private void loadWatchList(String json) throws JsonProcessingException {
@@ -392,7 +523,7 @@ public class Controller {
     checkLastPage();
     if (lastPage == 0) {
       nextButton.setVisible(false);
-    } else {
+    } else if (currentPage != lastPage) {
       nextButton.setVisible(true);
     }
     showProducts();

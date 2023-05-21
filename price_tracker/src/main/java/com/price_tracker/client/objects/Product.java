@@ -93,7 +93,7 @@ public class Product {
 
   public double getLastPrice() {
     if (this.getPrices().isEmpty() == false) {
-      return this.getPrices().get(this.getPrices().size()-1);
+      return this.getPrices().get(0);
     } else {
       return 0.0;
     }
@@ -101,7 +101,7 @@ public class Product {
 
   public double getSecondPrice() {
     if (this.getPrices().size() >= 2) {
-      return this.getPrices().get(this.getPrices().size()-2);
+      return this.getPrices().get(1);
     } else {
       return 0.0;
     }

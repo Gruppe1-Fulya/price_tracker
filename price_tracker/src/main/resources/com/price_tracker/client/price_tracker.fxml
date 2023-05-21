@@ -297,17 +297,17 @@
             </Label>
             <Pane fx:id="priceAlarmPane" layoutX="7.0" layoutY="103.0" prefHeight="200.0" prefWidth="228.0" style="-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;">
               <children>
-                <Label fx:id="conditionLabel" layoutX="79.0" layoutY="22.0" text="Condition">
+                <Label fx:id="conditionLabel" alignment="CENTER" layoutX="4.0" layoutY="28.0" prefHeight="25.0" prefWidth="221.0" text="Falls sich etwas ändert">
+                  <font>
+                    <Font size="14.0" />
+                  </font>
+                </Label>
+                <Label fx:id="triggeredOnLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="126.0" text="Triggered on">
                   <font>
                     <Font size="16.0" />
                   </font>
                 </Label>
-                <Label fx:id="triggeredOnLabel" layoutX="122.0" layoutY="88.0" text="Triggered on">
-                  <font>
-                    <Font size="16.0" />
-                  </font>
-                </Label>
-                <Label fx:id="setOnLabel" layoutX="21.0" layoutY="88.0" text="Set on">
+                <Label fx:id="setOnLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="137.0" layoutY="88.0" text="Set on">
                   <font>
                     <Font size="16.0" />
                   </font>
@@ -317,6 +317,21 @@
                               <Image url="@../../../static/delete_icon.png" />
                            </image>
                         </ImageView>
+                        <Label fx:id="setOnLabel1" layoutX="13.0" layoutY="88.0" text="Eingestellt auf">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="triggeredOnLabel1" layoutX="13.0" layoutY="126.0" text="Triggered on">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bedingungLabel" layoutX="72.0" layoutY="2.0" text="Bedingung">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
               </children>
             </Pane>
           </children>
