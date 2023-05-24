@@ -1,16 +1,14 @@
 package com.price_tracker.server.service.email;
 
+import java.net.URL;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.core.io.UrlResource;
+import com.price_tracker.server.entity.Product;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.stereotype.Service;
-
-import com.price_tracker.server.entity.Product;
-
-import java.net.URL;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class EmailService {

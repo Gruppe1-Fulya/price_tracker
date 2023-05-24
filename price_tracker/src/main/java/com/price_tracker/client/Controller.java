@@ -1,17 +1,22 @@
 package com.price_tracker.client;
 
 import java.net.*;
-import java.time.LocalDate;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import javafx.scene.chart.*;
+import java.util.Collections;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
+import javafx.application.Platform;
+import java.util.stream.Collectors;
 import javafx.scene.image.ImageView;
-import javafx.scene.chart.LineChart;
+import javafx.collections.FXCollections;
+import java.time.format.DateTimeFormatter;
 import com.price_tracker.client.objects.User;
 import com.price_tracker.client.objects.Alarm;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,10 +30,6 @@ public class Controller {
   private Label welcomeLabel;
   @FXML
   private TextField addProductTextField;
-  @FXML
-  private ListView watchlistListView;
-  @FXML
-  private LineChart productPriceLineChart;
   @FXML
   private Label productNameLabel;
   @FXML
@@ -47,8 +48,6 @@ public class Controller {
   private Label setOnLabel;
   @FXML
   private Label triggeredOnLabel;
-  @FXML
-  private ImageView openBrowserImageView;
   @FXML
   private Label emptyWLWarningLabel;
   @FXML
@@ -102,6 +101,8 @@ public class Controller {
   @FXML
   private Label productWLPriceLabel4;
   @FXML
+  private Pane priceAlarmPane;
+  @FXML
   private Label preisChangeLabel1;
   @FXML
   private Label preisChangeLabel2;
@@ -110,39 +111,157 @@ public class Controller {
   @FXML
   private Label preisChangeLabel4;
   @FXML
-  private Pane priceAlarmPane;
+  private ImageView deleteProductIcon1;
+  @FXML
+  private ImageView deleteProductIcon2;
+  @FXML
+  private ImageView deleteProductIcon3;
+  @FXML
+  private ImageView deleteProductIcon4;
+  @FXML
+  private ListView watchlistListView;
+  @FXML
+  private LineChart<String, Double> productPriceLineChart;
 
   private int currentPage = 0;
   private int lastPage = 0;
   private String activeURL;
   private Product activeProduct;
   private int activePane;
+  private boolean isEmpty;
+  private Product product1;
+  private Product product2;
+  private Product product3;
+  private Product product4;
 
   private List<Product> watchList = new ArrayList<>();
 
   @FXML
-  private void initialize() throws JsonProcessingException {
+  private void initialize() throws Exception {
+    Platform.runLater(() -> watchlistListView.requestFocus());
     conditionComboBox.getItems().addAll("Beliebige Änderung", "Unter dem Zielwert", "Über dem Zielwert", "Gleich");
     welcomeLabel.setText("Willkommen, " + User.name);
 
     String wlResponse = Requests.sendLoadWLRequest(User.id);
 
     if (wlResponse.equals("empty")) {
+      isEmpty = true;
       emptyWLWarningLabel.setVisible(true);
       watchListLabel1.setVisible(true);
       watchListLabel.setVisible(false);
+      productPane1.setVisible(false);
+      productPane2.setVisible(false);
+      productPane3.setVisible(false);
+      productPane4.setVisible(false);
+      nextButton.setVisible(false);
+      showFeaturedProducts();
+      productPaneClick1();
+      Platform.runLater(() -> watchlistListView.requestFocus());
     } else {
+      isEmpty = false;
       emptyWLWarningLabel.setVisible(false);
       watchListLabel1.setVisible(false);
       watchListLabel.setVisible(true);
       loadWatchList(wlResponse);
       productPaneClick1();
+      deleteProductIcon1.setVisible(true);
+      deleteProductIcon2.setVisible(true);
+      deleteProductIcon3.setVisible(true);
+      deleteProductIcon4.setVisible(true);
+      Platform.runLater(() -> watchlistListView.requestFocus());
     }
+  }
+
+  private void showFeaturedProducts() throws Exception {
+    priceAlarmPane.setVisible(false);
+
+    deleteProductIcon1.setVisible(false);
+    deleteProductIcon2.setVisible(false);
+    deleteProductIcon3.setVisible(false);
+    deleteProductIcon4.setVisible(false);
+
+    productPane1.setVisible(true);
+    productPane2.setVisible(true);
+    productPane3.setVisible(true);
+    productPane4.setVisible(true);
+
+    product1 = new Product("https://www.trendyol.com/vans/old-skool-unisex-ayakkabi-vn000d3hy281-p-1738026");
+    product2 = new Product("https://www.hepsiburada.com/samsung-galaxy-watch-5-pro-akilli-saat-siyah-titanium-45mm-sm-r920nzkatur-samsung-turkiye-garantili-p-HBCV00002QNCNS");
+    product3 = new Product("https://www.amazon.com.tr/dp/B07GS6ZB7T");
+    product4 = new Product("https://www.trendyol.com/bargello/erkek-parfum-561-fresh-50-ml-edp-8691841304531-p-32332095");
+
+    Image img1 = new Image(product1.getImage());
+    Image img2 = new Image(product2.getImage());
+    Image img3 = new Image(product3.getImage());
+    Image img4 = new Image(product4.getImage());
+
+    productSmallImageView1.setImage(img1);
+    productSmallImageView2.setImage(img2);
+    productSmallImageView3.setImage(img3);
+    productSmallImageView4.setImage(img4);
+
+    productNameLabel1.setText("Vans Old School Unis...");
+    productNameLabel2.setText("Samsung Galaxy Watch...");
+    productNameLabel3.setText("Logitech G G502 HERO...");
+    productNameLabel4.setText("Bargello Erkek Parfü...");
+
+    platformLabel1.setText("Trendyol");
+    platformLabel2.setText("Hepsiburada");
+    platformLabel3.setText("Amazon");
+    platformLabel4.setText("Trendyol");
+
+    productWLPriceLabel1.setText("1599.0");
+    productWLPriceLabel2.setText("6198.0");
+    productWLPriceLabel3.setText("1299.0");
+    productWLPriceLabel4.setText("160.0");
+
+    preisChangeLabel1.setStyle(("-fx-text-fill: #31590d;"));
+    preisChangeLabel2.setStyle(("-fx-text-fill: #31590d;"));
+    preisChangeLabel3.setStyle(("-fx-text-fill: #31590d;"));
+    preisChangeLabel4.setStyle(("-fx-text-fill: #31590d;"));
+
+    product1.addPrice(1599.0);
+    product1.addPrice(1999.0);
+    product1.addPrice(1999.0);
+    product1.addPrice(1999.0);
+    product1.addPrice(1999.0);
+    product1.addPrice(2100.0);
+    product1.addPrice(2100.0);
+
+    product2.addPrice(6198.0);
+    product2.addPrice(6500.0);
+    product2.addPrice(6500.0);
+    product2.addPrice(6400.0);
+    product2.addPrice(6400.0);
+    product2.addPrice(6400.0);
+    product2.addPrice(6450.0);
+
+    product3.addPrice(1299.0);
+    product3.addPrice(1650.0);
+    product3.addPrice(1650.0);
+    product3.addPrice(1650.0);
+    product3.addPrice(1720.0);
+    product3.addPrice(1720.0);
+    product3.addPrice(1550.0);
+
+    product4.addPrice(160.0);
+    product4.addPrice(189.0);
+    product4.addPrice(195.0);
+    product4.addPrice(195.0);
+    product4.addPrice(195.0);
+    product4.addPrice(189.0);
+    product4.addPrice(200.0);
+
+    preisChangeLabel1.setText("20.01" + " ▼");
+    preisChangeLabel2.setText("4.64" + " ▼");
+    preisChangeLabel3.setText("21.27" + " ▼");
+    preisChangeLabel4.setText("15.34" + " ▼");
   }
 
   @FXML
   private void handleAddProductTextFieldEnter() throws Exception {
     String text = addProductTextField.getText();
+    text = text.split("\\?")[0];
     addProductTextField.clear();
 
     if (text.contains("hepsiburada.com") || text.contains("trendyol.com") || text.contains("amazon.com.tr")) {
@@ -154,7 +273,10 @@ public class Controller {
         String url = product.getUrl();
         String image = product.getImage();
 
-        Requests.sendAddProductRequest(User.email, name, url, image);
+        String response = Requests.sendAddProductRequest(User.email, name, url, image);
+        int startIndex = response.indexOf("id", response.indexOf("id") + 2) + 4;
+        response = response.substring(startIndex, response.indexOf(",", startIndex));
+        Requests.sendUpdatePriceRequest(Integer.parseInt(response));
       } catch (MalformedURLException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -164,12 +286,11 @@ public class Controller {
       productWarningLabel.setVisible(true);
     }
 
-    int lastPageTemp = lastPage;
     initialize();
   }
 
   @FXML
-  public void deleteProduct1() throws JsonProcessingException {
+  public void deleteProduct1() throws Exception {
     int watchlistId = watchList.get(((currentPage) * 4)).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
@@ -179,7 +300,7 @@ public class Controller {
   }
 
   @FXML
-  public void deleteProduct2() throws JsonProcessingException {
+  public void deleteProduct2() throws Exception {
     int watchlistId = watchList.get(((currentPage) * 4) + 1).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
@@ -189,7 +310,7 @@ public class Controller {
   }
 
   @FXML
-  public void deleteProduct3() throws JsonProcessingException {
+  public void deleteProduct3() throws Exception {
     int watchlistId = watchList.get(((currentPage) * 4) + 2).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
@@ -199,7 +320,7 @@ public class Controller {
   }
 
   @FXML
-  public void deleteProduct4() throws JsonProcessingException {
+  public void deleteProduct4() throws Exception {
     int watchlistId = watchList.get(((currentPage) * 4) + 3).getWatchlist_id();
     Requests.sendDeleteProductRequest(watchlistId);
     int lastPageTemp = lastPage;
@@ -210,13 +331,19 @@ public class Controller {
 
   @FXML
   public void productPaneClick1() throws JsonProcessingException {
-    if (watchList.size() != currentPage * 4) {
+    if (watchList.size() != currentPage * 4 || isEmpty == true) {
       productPane1.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-      Product product = watchList.get(((currentPage) * 4));
-      activeProduct = product;
+
+      activeProduct = product1;
+      Product product = product1;
+      if (isEmpty != true) {
+        product = watchList.get(((currentPage) * 4));
+        activeProduct = product;
+      }
+
       Image productImage = new Image(product.getImage());
       productImageView.setImage(productImage);
       String name = product.getName();
@@ -224,6 +351,7 @@ public class Controller {
       activeURL = url;
       String price = Double.toString(product.getLastPrice());
       productPriceLabel.setText(price + "₺");
+      plotProductPrices(product.getPrices());
 
       if (product.getAlarm_id() != -1) {
         priceAlarmPane.setVisible(true);
@@ -233,8 +361,10 @@ public class Controller {
         setOnLabel.setText(alarm.getDateCreated());
         if (alarm.getDateTriggered() != null) {
           triggeredOnLabel.setText(alarm.getDateTriggered());
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #c9c9c9");
         } else {
           triggeredOnLabel.setText("-");
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;");
         }
       } else {
         priceAlarmPane.setVisible(false);
@@ -262,8 +392,14 @@ public class Controller {
       productPane2.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-      Product product = watchList.get(((currentPage) * 4) + 1);
-      activeProduct = product;
+
+      activeProduct = product2;
+      Product product = product2;
+      if (isEmpty != true) {
+        product = watchList.get(((currentPage) * 4) + 1);
+        activeProduct = product;
+      }
+
       Image productImage = new Image(product.getImage());
       productImageView.setImage(productImage);
       String name = product.getName();
@@ -271,6 +407,7 @@ public class Controller {
       activeURL = url;
       String price = Double.toString(product.getLastPrice());
       productPriceLabel.setText(price + "₺");
+      plotProductPrices(product.getPrices());
 
       if (product.getAlarm_id() != -1) {
         priceAlarmPane.setVisible(true);
@@ -280,8 +417,10 @@ public class Controller {
         setOnLabel.setText(alarm.getDateCreated());
         if (alarm.getDateTriggered() != null) {
           triggeredOnLabel.setText(alarm.getDateTriggered());
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #c9c9c9");
         } else {
           triggeredOnLabel.setText("-");
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;");
         }
       } else {
         priceAlarmPane.setVisible(false);
@@ -309,8 +448,14 @@ public class Controller {
       productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane3.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane4.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-      Product product = watchList.get(((currentPage) * 4) + 2);
-      activeProduct = product;
+
+      activeProduct = product3;
+      Product product = product3;
+      if (isEmpty != true) {
+        product = watchList.get(((currentPage) * 4) + 2);
+        activeProduct = product;
+      }
+
       Image productImage = new Image(product.getImage());
       productImageView.setImage(productImage);
       String name = product.getName();
@@ -318,6 +463,7 @@ public class Controller {
       activeURL = url;
       String price = Double.toString(product.getLastPrice());
       productPriceLabel.setText(price + "₺");
+      plotProductPrices(product.getPrices());
 
       if (product.getAlarm_id() != -1) {
         priceAlarmPane.setVisible(true);
@@ -327,11 +473,14 @@ public class Controller {
         setOnLabel.setText(alarm.getDateCreated());
         if (alarm.getDateTriggered() != null) {
           triggeredOnLabel.setText(alarm.getDateTriggered());
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #c9c9c9");
         } else {
           triggeredOnLabel.setText("-");
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;");
         }
       } else {
         priceAlarmPane.setVisible(false);
+
       }
 
       if (url.length() > 53) {
@@ -356,8 +505,13 @@ public class Controller {
       productPane2.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane3.setStyle("-fx-border-color: black; -fx-background-color: #F1F1F1; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
       productPane4.setStyle("-fx-border-color: black; -fx-background-color: #DEDEDE; -fx-border-radius: 7; -fx-border-width: 0 1 1 1;");
-      Product product = watchList.get(((currentPage) * 4) + 3);
-      activeProduct = product;
+
+      activeProduct = product4;
+      Product product = product4;
+      if (isEmpty != true) {
+        product = watchList.get(((currentPage) * 4) + 3);
+        activeProduct = product;
+      }
       Image productImage = new Image(product.getImage());
       productImageView.setImage(productImage);
       String name = product.getName();
@@ -365,6 +519,7 @@ public class Controller {
       activeURL = url;
       String price = Double.toString(product.getLastPrice());
       productPriceLabel.setText(price + "₺");
+      plotProductPrices(product.getPrices());
 
       if (product.getAlarm_id() != -1) {
         priceAlarmPane.setVisible(true);
@@ -374,8 +529,10 @@ public class Controller {
         setOnLabel.setText(alarm.getDateCreated());
         if (alarm.getDateTriggered() != null) {
           triggeredOnLabel.setText(alarm.getDateTriggered());
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #c9c9c9");
         } else {
           triggeredOnLabel.setText("-");
+          priceAlarmPane.setStyle("-fx-border-color: black; -fx-border-radius: 7; -fx-border-width: 0 1 1 1; -fx-background-color: #D8EDDF;");
         }
       } else {
         priceAlarmPane.setVisible(false);
@@ -690,5 +847,45 @@ public class Controller {
     for (Double price : prices) {
       product.addPrice(price);
     }
+  }
+
+
+  public void plotProductPrices(ArrayList<Double> prices) {
+    ArrayList<LocalDate> dates = new ArrayList<>();
+    for (int i = 6; i >= 0; i--) {
+      LocalDate date = LocalDate.now().minusDays(i);
+      dates.add(date);
+    }
+    // Clear any existing data
+    productPriceLineChart.getData().clear();
+
+    // Create a new data series for the product prices
+    XYChart.Series<String, Double> series = new XYChart.Series<>();
+
+    // Set the axis labels
+    productPriceLineChart.getXAxis().setLabel("Datum");
+    productPriceLineChart.getYAxis().setLabel("Preis");
+
+    // Add the dates for the current product to the x-axis
+    CategoryAxis categoryAxis = (CategoryAxis) productPriceLineChart.getXAxis();
+    categoryAxis.setCategories(FXCollections.observableArrayList(dates.stream().map(date -> date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).collect(Collectors.toList())));
+
+    // Iterate through the dates in reverse order and get the corresponding price for each date
+    ArrayList<Double> pricesReversed = (ArrayList<Double>) prices.clone();
+    Collections.reverse(pricesReversed);
+    for (int i = dates.size() - 1; i >= 0; i--) {
+      // Get the index of the price for the current date
+      int priceIndex = prices.size() - (dates.size() - i);
+      if (priceIndex >= 0 && priceIndex < prices.size()) {
+        // Add the data point to the series
+        series.getData().add(new XYChart.Data<>(dates.get(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), pricesReversed.get(priceIndex)));
+      }
+    }
+
+    // Add the series to the chart
+    productPriceLineChart.getData().add(series);
+
+    // Hide the legend
+    productPriceLineChart.setLegendVisible(false);
   }
 }

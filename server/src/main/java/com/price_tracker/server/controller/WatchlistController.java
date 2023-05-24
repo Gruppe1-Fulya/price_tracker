@@ -1,6 +1,7 @@
 package com.price_tracker.server.controller;
 
 import java.util.List;
+import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import com.price_tracker.server.entity.User;
 import com.price_tracker.server.entity.Alarm;
@@ -40,7 +41,7 @@ public class WatchlistController {
   public ResponseEntity<Watchlist> createWatchlistForUser(@RequestParam String email,
                                                           @RequestParam String name,
                                                           @RequestParam String url,
-                                                          @RequestParam String image) {
+                                                          @RequestParam String image) throws IOException {
     User user = userService.findByEmail(email);
     if (user != null) {
       if (productService.findByURL(url) == null) {

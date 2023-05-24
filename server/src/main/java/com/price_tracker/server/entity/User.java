@@ -1,8 +1,8 @@
 package com.price_tracker.server.entity;
 
-import jakarta.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")

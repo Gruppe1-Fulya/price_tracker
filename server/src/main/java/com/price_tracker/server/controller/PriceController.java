@@ -22,11 +22,18 @@ public class PriceController {
   @PostMapping("/start")
   public ResponseEntity<String> startChecking() throws IOException {
     priceService.updatePrices();
+    System.out.println("printed this start request");
     return ResponseEntity.ok().body("Started");
   }
 
   @GetMapping("/price-list/{product_id}")
   public ResponseEntity<List<Price>> listPrices(@PathVariable int product_id) {
     return ResponseEntity.status(HttpStatus.FOUND).body(priceService.getPricesForLast7Days(product_id));
+  }
+
+  @GetMapping("/update-price/{product_id}")
+  public ResponseEntity<?> updatePrice(@PathVariable int product_id) throws IOException {
+    priceService.checkIndividualPrice(product_id);
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 }

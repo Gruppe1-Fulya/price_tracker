@@ -1,14 +1,13 @@
 package com.price_tracker.server.service;
 
+import java.util.List;
+import java.time.LocalDate;
 import com.price_tracker.server.entity.Alarm;
+import org.springframework.stereotype.Service;
 import com.price_tracker.server.entity.Watchlist;
 import com.price_tracker.server.repository.AlarmRepo;
 import com.price_tracker.server.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class AlarmService {

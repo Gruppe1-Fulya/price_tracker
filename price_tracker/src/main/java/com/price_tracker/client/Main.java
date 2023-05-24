@@ -1,10 +1,11 @@
 package com.price_tracker.client;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import com.price_tracker.client.objects.Requests;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.image.Image;
+import javafx.application.Application;
 
 import java.io.IOException;
 

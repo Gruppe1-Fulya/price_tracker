@@ -1,7 +1,7 @@
 package com.price_tracker.server.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "alarm")

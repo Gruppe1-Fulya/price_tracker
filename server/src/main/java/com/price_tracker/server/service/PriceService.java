@@ -3,6 +3,8 @@ package com.price_tracker.server.service;
 import java.io.*;
 import java.net.URL;
 import java.util.List;
+
+import jakarta.annotation.PostConstruct;
 import org.jsoup.Jsoup;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,6 +33,11 @@ public class PriceService {
     this.alarmService = alarmService;
   }
 
+  @PostConstruct
+  public void init() throws IOException {
+    // Start the service here
+    updatePrices();
+  }
   public Price findByProductId(int id) {
     return priceRepo.findByProductId(id);
   }
@@ -101,7 +108,7 @@ public class PriceService {
     int endIndex = html.indexOf(endMarker, startIndex + startMarker.length());
 
     String priceString = html.substring(startIndex + startMarker.length(), endIndex);
-    priceString = priceString.trim().replace(",", ".").replace("TL", "");
+    priceString = priceString.trim().replace(".", "").replace("TL", "").replace(",", ".");
     Double price = Double.parseDouble(priceString);
     return price;
   }
@@ -111,39 +118,48 @@ public class PriceService {
     List<Product> products = getProductsWithPrices();
 
     for (Product product : products) {
-      Price currentPrice = priceRepo.findTopByProductIdOrderByDateDesc(product.getId());
-      double newPrice = getPrice(product);
-      if (currentPrice == null ) {
-        // create a new price entity if there is no data for the product
-        currentPrice = new Price();
-        currentPrice.setDate(LocalDate.now());
-        currentPrice.setProduct(product);
-        currentPrice.setPrice(newPrice);
-        priceRepo.save(currentPrice);
-      } else if (currentPrice != null && currentPrice.getPrice() != newPrice && currentPrice.getDate().isEqual(LocalDate.now())) {
-        // if price has changed but date is same
-        alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
-        currentPrice.setDate(LocalDate.now());
-        currentPrice.setProduct(product);
-        currentPrice.setPrice(newPrice);
-        priceRepo.save(currentPrice);
-      } else if (currentPrice != null && currentPrice.getPrice() != newPrice && currentPrice.getDate().isBefore(LocalDate.now())) {
-        // if price has changed and date is not same
-        alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
-        currentPrice = new Price();
-        currentPrice.setDate(LocalDate.now());
-        currentPrice.setProduct(product);
-        currentPrice.setPrice(newPrice);
-        priceRepo.save(currentPrice);
-      } else if (currentPrice.getPrice() == newPrice && currentPrice.getDate().isBefore(LocalDate.now())) {
-        // add a new day even though the price hasn't changed
-        currentPrice = new Price();
-        currentPrice.setDate(LocalDate.now());
-        currentPrice.setProduct(product);
-        currentPrice.setPrice(newPrice);
-        priceRepo.save(currentPrice);
-      }
+      priceOps(product);
     }
+  }
+
+  public void priceOps(Product product) throws IOException {
+    Price currentPrice = priceRepo.findTopByProductIdOrderByDateDesc(product.getId());
+    double newPrice = getPrice(product);
+    if (currentPrice == null ) {
+      // create a new price entity if there is no data for the product
+      currentPrice = new Price();
+      currentPrice.setDate(LocalDate.now());
+      currentPrice.setProduct(product);
+      currentPrice.setPrice(newPrice);
+      priceRepo.save(currentPrice);
+    } else if (currentPrice != null && currentPrice.getPrice() != newPrice && currentPrice.getDate().isEqual(LocalDate.now())) {
+      // if price has changed but date is same
+      alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
+      currentPrice.setDate(LocalDate.now());
+      currentPrice.setProduct(product);
+      currentPrice.setPrice(newPrice);
+      priceRepo.save(currentPrice);
+    } else if (currentPrice != null && currentPrice.getPrice() != newPrice && currentPrice.getDate().isBefore(LocalDate.now())) {
+      // if price has changed and date is not same
+      alarmService.checkAllAlarmsForProduct(product.getId(), newPrice, currentPrice.getPrice());
+      currentPrice = new Price();
+      currentPrice.setDate(LocalDate.now());
+      currentPrice.setProduct(product);
+      currentPrice.setPrice(newPrice);
+      priceRepo.save(currentPrice);
+    } else if (currentPrice.getPrice() == newPrice && currentPrice.getDate().isBefore(LocalDate.now())) {
+      // add a new day even though the price hasn't changed
+      currentPrice = new Price();
+      currentPrice.setDate(LocalDate.now());
+      currentPrice.setProduct(product);
+      currentPrice.setPrice(newPrice);
+      priceRepo.save(currentPrice);
+    }
+  }
+
+  public void checkIndividualPrice(int product_id) throws IOException {
+    Product product = productRepo.findById(product_id);
+    priceOps(product);
   }
 
   private List<Product> getProductsWithPrices() {

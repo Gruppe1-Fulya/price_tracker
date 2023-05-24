@@ -2,9 +2,8 @@ package com.price_tracker.client.objects;
 
 import java.io.*;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.http.*;
+import java.nio.charset.StandardCharsets;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -78,7 +77,7 @@ public class Requests {
     }
   }
 
-  public static void sendAddProductRequest(String email, String name, String url, String image) {
+  public static String sendAddProductRequest(String email, String name, String url, String image) {
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -91,6 +90,7 @@ public class Requests {
 
     HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
     ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/watchlists/add-product", request, String.class);
+    return response.toString();
   }
 
   public static String sendLoadWLRequest(int id) {
@@ -228,5 +228,11 @@ public class Requests {
     String url = "http://localhost:8080/watchlists/remove-alarm/" + wid;
     ResponseEntity<String> response = restTemplate.postForEntity(url, null, String.class);
     return response.getBody();
+  }
+
+  public static void sendUpdatePriceRequest(int pid) {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = "http://localhost:8080/price/update-price/" + pid;
+    ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
   }
 }

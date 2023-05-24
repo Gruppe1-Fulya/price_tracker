@@ -107,16 +107,33 @@ public class Product {
     }
   }
 
-  private void checkAmazon(Document doc) {
-    this.name = doc.select("span#productTitle").first().text();
-    String imageUrl = doc.select("img[data-old-hires]").first().attr("src");
-    this.image = imageUrl;
-
+  private void checkAmazon() throws Exception {
     int dpIndex = this.url.indexOf("dp/", 0);
     String productId = this.url.substring(dpIndex+3, dpIndex+13);
 
     String newUrl = "https://www.amazon.com.tr/dp/" + productId;
     this.url = newUrl;
+
+    String html = fetchHtml("https://www.amazon.com.tr/s?k=" + productId);
+
+    // Find the starting index of the product name
+    int startIndex = html.indexOf("<span class=\"a-size-base-plus a-color-base a-text-normal\">") + "<span class=\"a-size-base-plus a-color-base a-text-normal\">".length();
+
+    // Find the ending index of the product name
+    int endIndex = html.indexOf("</span>", startIndex);
+
+    this.name = html.substring(startIndex, endIndex).trim();
+
+    // Find the starting index of the image source URL
+    startIndex = html.indexOf("<img class=\"s-image\" src=\"") + "<img class=\"s-image\" src=\"".length();
+
+    // Find the ending index of the image source URL
+    endIndex = html.indexOf("\"", startIndex);
+
+    // Extract the image source URL
+    String imageUrl = html.substring(startIndex, endIndex);
+
+    this.image = imageUrl;
   }
 
   private void checkHepsiBurada(Document doc) {
@@ -180,8 +197,7 @@ public class Product {
 
   private void extractData() throws Exception {
     if (this.url.contains("amazon.com.tr")) {
-      Document doc = Jsoup.connect(this.url).userAgent("Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148").get();
-      checkAmazon(doc);
+      checkAmazon();
     } else if (this.url.contains("hepsiburada.com")) {
       Document doc = Jsoup.connect(this.url).get();
       checkHepsiBurada(doc);
