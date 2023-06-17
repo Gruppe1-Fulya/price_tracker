@@ -334,6 +334,7 @@
                         </Label>
               </children>
             </Pane>
+                  <Label fx:id="priceWarningLabel" layoutX="16.0" layoutY="14.0" text="Bitte geben Sie einen gültigen Preis ein!" textFill="#d01b1b" visible="false" />
           </children>
         </Pane>
       </children>

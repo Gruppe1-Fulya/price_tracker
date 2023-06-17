@@ -121,6 +121,8 @@ public class Controller {
   @FXML
   private ListView watchlistListView;
   @FXML
+  private Label priceWarningLabel;
+  @FXML
   private LineChart<String, Double> productPriceLineChart;
 
   private int currentPage = 0;
@@ -618,17 +620,27 @@ public class Controller {
 
   @FXML
   public void handleSetAlarmTextFieldEnter() throws JsonProcessingException {
+    double targetPrice = Double.parseDouble(priceTextField.getText());
+
     String condition;
     if (conditionComboBox.getValue() == "Beliebige Änderung") {
       condition = "ANY_CHANGE";
-    } else if (conditionComboBox.getValue() == "Unter dem Zielwert") {
+      priceWarningLabel.setVisible(false);
+    } else if (conditionComboBox.getValue() == "Unter dem Zielwert" && activeProduct.getLastPrice() >= targetPrice) {
       condition = "BELOW_TARGET";
-    } else if (conditionComboBox.getValue() == "Über dem Zielwert") {
+      priceWarningLabel.setVisible(false);
+    } else if (conditionComboBox.getValue() == "Über dem Zielwert" && activeProduct.getLastPrice() <= targetPrice) {
       condition = "ABOVE_TARGET";
-    } else {
+      priceWarningLabel.setVisible(false);
+    } else if (conditionComboBox.getValue() == "Gleich" && activeProduct.getLastPrice() != targetPrice) {
       condition = "EQUALS_TARGET";
+      priceWarningLabel.setVisible(false);
+    } else {
+      priceWarningLabel.setVisible(true);
+      return;
     }
-    int alarmId = Integer.parseInt(Requests.sendSetAlarmRequest(activeProduct.getId(), activeProduct.getWatchlist_id(), LocalDate.now().toString(), condition, Double.parseDouble(priceTextField.getText())));
+
+    int alarmId = Integer.parseInt(Requests.sendSetAlarmRequest(activeProduct.getId(), activeProduct.getWatchlist_id(), LocalDate.now().toString(), condition, targetPrice));
     priceTextField.clear();
     activeProduct.setAlarm_id(alarmId);
 
