@@ -72,6 +72,10 @@ public class Alarm {
     return id;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
   public int getWatchlist_id() { return watchlist_id; }
 
   public void setWatchlist_id(int watchlist_id) { this.watchlist_id = watchlist_id; }
